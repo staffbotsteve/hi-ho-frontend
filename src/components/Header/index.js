@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Input from '../Input';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import GoogleMaps from '../GoogleMaps';
 
 
@@ -27,6 +29,42 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const clearInput = (inputs) => {
+    inputs.forEach(input => input(""));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const url = process.env.REACT_APP_API_URL;
+    console.log("url", url)
+
+    fetch(`${url}/login`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email, password,
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log("data", data)
+          toast.success("logged in successfully")
+
+          const inputs = [setEmail, setPassword];
+          clearInput(inputs)
+        } else{
+          toast.error(data.error)
+        }
+      })
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -39,8 +77,8 @@ export default function Header() {
            Hi Ho
           </Typography>
           {/* <GoogleMaps /> */}
-          <Input />
-          <Button color="inherit">Login</Button>
+          <Input email={email} setEmail={setEmail} password={password} setPassword={setPassword} />
+          <Button color="inherit" onClick={handleSubmit}>Login</Button>
 
         </Toolbar>
       </AppBar>

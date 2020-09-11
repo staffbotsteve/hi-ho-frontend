@@ -47,21 +47,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Input() {
+export default function Input({email, setEmail, password, setPassword}) {
   const classes = useStyles();
 
 
   return (
     <div>
       <FormControl className={classes.margin}>
-        
-        <BootstrapInput id="demo-customized-textbox" placeholder="Email"/>
+        <BootstrapInput id="demo-customized-textbox" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </FormControl>
       <FormControl className={classes.margin}>
-        
-        <BootstrapInput id="demo-customized-textbox" placeholder="Password"/>
+        <BootstrapInput id="demo-customized-textbox" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </FormControl>
-    
+
     </div>
   );
 }
