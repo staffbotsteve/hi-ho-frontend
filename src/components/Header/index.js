@@ -74,7 +74,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-           Hi Ho
+           Hi Ho - It's off to work we go...
           </Typography>
           {/* <GoogleMaps /> */}
           <Input email={email} setEmail={setEmail} password={password} setPassword={setPassword} />

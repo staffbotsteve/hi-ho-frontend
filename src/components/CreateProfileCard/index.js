@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import PhoneNumberCard from '../PhoneNumberInput';
 import SubmitBtn from '../SubmitBtn';
 import Card from '@material-ui/core/Card';
 import { toast } from "react-toastify";
@@ -152,7 +151,7 @@ export default function CreateProfileCard() {
           value={minSalary}
         />
         {/* <PhoneNumberCard /> */}
-        <SubmitBtn handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
+        <SubmitBtn handleSubmit={handleSubmit} >Create Profile</SubmitBtn>
         </Card>
       </div>
     </form>

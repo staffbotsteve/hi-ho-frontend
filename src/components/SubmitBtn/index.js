@@ -21,15 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubmitBtn(props, {handleSubmit}) {
+export default function SubmitBtn(props) {
   const classes = useStyles();
 
   return (
     <div>
-      <ColorButton variant="contained" color="primary" className={classes.margin} onClick={handleSubmit}>
-       {props.children}
+      <ColorButton variant="contained" color="primary" className={classes.margin} onClick={props.handleSubmit}>
+        {props.children}
       </ColorButton>
-      
     </div>
   );
 }
