@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import CreateProfileCard from './components/CreateProfileCard';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from './pages/Home'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <ToastContainer />
       <Header />
       <CreateProfileCard />
+      <Home />
       <Footer />
     </div>
 
