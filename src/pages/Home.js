@@ -1,10 +1,10 @@
 import React from 'react'
-import TableData from '../components/TableData'
+import APIInput from '../components/APIInput'
 
 export default function Home() {
     return (
         <div>
-            <TableData />
+            <APIInput />
         </div>
     )
 }
