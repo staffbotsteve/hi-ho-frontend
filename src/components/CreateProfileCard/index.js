@@ -39,14 +39,14 @@ export default function CreateProfileCard() {
     console.log("url", url)
 
     if(firstName === "" || lastName === "" || email === "" || password === "" || confirmPassword === "" || jobTitle === "" || minSalary === ""){
-      toast.error("please fill the required field(s)")
+      toast.error("Please fill all required field(s)")
     }
 
     if(password !== "" && password.length < 6){
-      toast.error("password can not be less than 6")
+      toast.error("Password cannot be less than 6 characters")
     }
     if(password !== "" && password !== confirmPassword){
-      toast.error("password and confirm password does not match")
+      toast.error("Passwords do not match")
     }
 
     fetch(`${url}/register`, {
@@ -128,7 +128,7 @@ export default function CreateProfileCard() {
           required
           id="outlined-required"
           label="Phone Number"
-          placeholder="Phone Number"
+          placeholder="123-456-7890"
           variant="outlined"
           onChange={(e) => setPhone(e.target.value)}
           value={phone}
@@ -152,7 +152,7 @@ export default function CreateProfileCard() {
           value={minSalary}
         />
         {/* <PhoneNumberCard /> */}
-        <SubmitBtn handleSubmit={handleSubmit} />
+        <SubmitBtn handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
         </Card>
       </div>
     </form>
