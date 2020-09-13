@@ -111,7 +111,7 @@ export default function APIInput() {
             {zipResult.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
-                  <Modal location={row.location}>{row.name}</Modal>
+                  <Modal location={row.city + ", " + row.state}>{row.name}</Modal>
                 </TableCell>
                 <TableCell align="left">{row.hiring_company.name}</TableCell>
                 <TableCell align="left">{row.location}</TableCell>
