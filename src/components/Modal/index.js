@@ -23,21 +23,19 @@ const useStyles = makeStyles((theme) => ({
 export default function TransitionsModal(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [location, setLocation] = useState("")
-  const [itemPrice, setItemPrice] = useState([]);
-  const [costLiving, setCostLiving] = useState([]);
 
   const handleOpen = (event) => {
     setOpen(true);
-    console.log("event", event.target)
-    API.ItemPrices(event).then((res) => {
-        setItemPrice(res)
-        console.log("itemprices", res);
-      });
-  
-      API.CostOfLiving(event.location).then((res) => {
-        console.log("costofliving", res);
-      });
+    const cityState = event.target.getAttribute("location");
+    console.log(cityState);
+
+    API.ItemPrices(cityState).then((res) => {
+      console.log("itemprices", res);
+    });
+
+    API.CostOfLiving(cityState).then((res) => {
+      console.log("costofliving", res);
+    });
   };
 
   const handleClose = () => {
@@ -46,7 +44,7 @@ export default function TransitionsModal(props) {
 
   return (
     <div>
-      <a type="button" onClick={handleOpen} value={props.location}>
+      <a type="button" onClick={handleOpen} location={props.location}>
         {props.children}
       </a>
       <Modal
