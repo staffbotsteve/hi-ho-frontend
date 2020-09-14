@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Created Context
+export const DataContext = createContext();
+
 export default function APIInput() {
   const classes = useStyles();
 
@@ -35,17 +38,9 @@ export default function APIInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     API.zipRecruiter(job, location, range).then((res) => {
       setZipResult(res.jobs);
-      console.log("ziprecruiter", zipResult);
-    });
-
-    API.ItemPrices(location).then((res) => {
-      console.log("itemprices", res);
-    });
-
-    API.CostOfLiving(location).then((res) => {
-      console.log("costofliving", res);
     });
   };
 
@@ -55,80 +50,84 @@ export default function APIInput() {
 
   return (
     <div>
-      <form
-        className={classes.root}
-        noValidate
-        autoComplete="off"
-        style={{ display: "flex" }}
-      >
-        <TextField
-          required
-          id="outlined-required"
-          label="Job Keyword"
-          placeholder="ex. Engineer"
-          variant="outlined"
-          onChange={(e) => setJob(e.target.value)}
-          value={job}
-        />
+      <DataContext.Provider value={zipResult}>
+        <form
+          className={classes.root}
+          noValidate
+          autoComplete="off"
+          style={{ display: "flex" }}
+        >
+          <TextField
+            required
+            id="outlined-required"
+            label="Job Keyword"
+            placeholder="ex. Engineer"
+            variant="outlined"
+            onChange={(e) => setJob(e.target.value)}
+            value={job}
+          />
 
-        <TextField
-          required
-          id="outlined-required"
-          label="Location"
-          placeholder="ex. Berkeley"
-          variant="outlined"
-          onChange={(e) => setLocation(e.target.value)}
-          value={location}
-        />
+          <TextField
+            required
+            id="outlined-required"
+            label="Location"
+            placeholder="ex. Berkeley"
+            variant="outlined"
+            onChange={(e) => setLocation(e.target.value)}
+            value={location}
+          />
 
-        <TextField
-          required
-          id="outlined-required"
-          label="Mile Radius"
-          placeholder="ex. 25"
-          variant="outlined"
-          onChange={(e) => setRange(e.target.value)}
-          value={range}
-        />
-        <Help />
-      </form>
+          <TextField
+            required
+            id="outlined-required"
+            label="Mile Radius"
+            placeholder="ex. 25"
+            variant="outlined"
+            onChange={(e) => setRange(e.target.value)}
+            value={range}
+          />
+          <Help />
+        </form>
 
-      <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
+        <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
 
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Job Title</TableCell>
-              <TableCell align="left">Company</TableCell>
-              <TableCell align="left">Location</TableCell>
-              <TableCell align="left">Summary</TableCell>
-              <TableCell align="left">Days Posted</TableCell>
-              <TableCell align="left">Application</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {zipResult.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  <Modal location={row.city + ", " + row.state}>{row.name}</Modal>
-                </TableCell>
-                <TableCell align="left">{row.hiring_company.name}</TableCell>
-                <TableCell align="left">{row.location}</TableCell>
-                <TableCell align="left">
-                  <p>{row.snippet}</p>
-                </TableCell>
-                <TableCell align="left">{row.job_age}</TableCell>
-                <TableCell align="left">
-                  <a href={row.url} target="_blank">
-                    Apply
-                  </a>
-                </TableCell>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Job Title</TableCell>
+                <TableCell align="left">Company</TableCell>
+                <TableCell align="left">Location</TableCell>
+                <TableCell align="left">Summary</TableCell>
+                <TableCell align="left">Days Posted</TableCell>
+                <TableCell align="left">Application</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {zipResult.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    <Modal location={row.city + ", " + row.state}>
+                      {row.name}
+                    </Modal>
+                  </TableCell>
+                  <TableCell align="left">{row.hiring_company.name}</TableCell>
+                  <TableCell align="left">{row.location}</TableCell>
+                  <TableCell align="left">
+                    <p>{row.snippet}</p>
+                  </TableCell>
+                  <TableCell align="left">{row.job_age}</TableCell>
+                  <TableCell align="left">
+                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+                      Apply
+                    </a>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </DataContext.Provider>
     </div>
   );
 }
