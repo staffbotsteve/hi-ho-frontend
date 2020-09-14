@@ -38,7 +38,7 @@ export default function APIInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     API.zipRecruiter(job, location, range).then((res) => {
       setZipResult(res.jobs);
     });
@@ -114,7 +114,7 @@ export default function APIInput() {
                   <TableCell align="left">{row.hiring_company.name}</TableCell>
                   <TableCell align="left">{row.location}</TableCell>
                   <TableCell align="left">
-                    <p>{row.snippet}</p>
+                    <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
                   </TableCell>
                   <TableCell align="left">{row.job_age}</TableCell>
                   <TableCell align="left">
