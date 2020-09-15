@@ -1,10 +1,10 @@
 import React from 'react'
 import APIInput from '../components/APIInput'
 
-export default function Home() {
+export default function Home(props) {
     return (
         <div>
-            <APIInput />
+            <APIInput {...props}  token={props.token} />
         </div>
     )
 }

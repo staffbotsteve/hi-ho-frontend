@@ -1,16 +1,19 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
 import SubmitBtn from "../SubmitBtn";
 import Help from "../Help";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@material-ui/core";
 import ModalCard from "../Modal";
 import Slider from "../Slider";
 
@@ -29,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 // Created Context
 export const DataContext = createContext();
 
-export default function APIInput() {
+export default function APIInput({token}) {
   const classes = useStyles();
 
   const [job, setJob] = useState("");
@@ -43,7 +46,51 @@ export default function APIInput() {
 
     API.zipRecruiter(job, location, range, result).then((res) => {
       setZipResult(res.jobs);
+      console.log("jobs", res.jobs);
     });
+  };
+
+  useEffect(() => {
+    console.log("got here", token);
+  }, [token]);
+
+  const backendUrl = process.env.REACT_APP_API_URL;
+
+  const handleJobSave = (data) => {
+    const {
+      name,
+      hiring_company,
+      location,
+      snippet,
+      job_age,
+      url,
+      city,
+      state,
+    } = data;
+    const company = hiring_company.name;
+    const {id} = token;
+
+    fetch(`${backendUrl}/jobs`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: id,
+        name,
+        company,
+        location,
+        snippet,
+        job_age,
+        url,
+        city,
+        state,
+      }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("data", data)
+    })
   };
 
   // useEffect(()=>{
@@ -104,6 +151,7 @@ export default function APIInput() {
                 <TableCell align="left">Summary</TableCell>
                 <TableCell align="left">Days Posted</TableCell>
                 <TableCell align="left">Application</TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -127,6 +175,11 @@ export default function APIInput() {
                     <a href={row.url} target="_blank" rel="noopener noreferrer">
                       Apply
                     </a>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)}>
+                      Save
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
