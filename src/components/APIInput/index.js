@@ -16,6 +16,10 @@ import {
 } from "@material-ui/core";
 import ModalCard from "../Modal";
 import Slider from "../Slider";
+import Wrapper from "../Wrapper"
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +47,10 @@ export default function APIInput({token}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if(job === "" && location === "" && range === ""){
+      toast.success("Displaying most recently posted jobs in the USA")
+    }
 
     API.zipRecruiter(job, location, range, result).then((res) => {
       setZipResult(res.jobs);
@@ -93,13 +101,9 @@ export default function APIInput({token}) {
     })
   };
 
-  // useEffect(()=>{
-  //   console.log("ziprecruiter outside",zipResult)
-  // }, [zipResult])
-
   return (
     <div>
-      <DataContext.Provider value={zipResult}>
+    
         <form
           className={classes.root}
           noValidate
@@ -141,6 +145,8 @@ export default function APIInput({token}) {
 
         <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
 
+<Wrapper>
+
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -166,9 +172,20 @@ export default function APIInput({token}) {
                     </ModalCard>
                   </TableCell>
                   <TableCell align="left">{row.hiring_company.name}</TableCell>
-                  <TableCell align="left">{row.location}</TableCell>
                   <TableCell align="left">
+                  <ModalCard
+                      location={row.city + ", " + row.state}
+                      city={row.city}
+                    >
+                    {row.location}
+                    </ModalCard>
+                    </TableCell>
+                  <TableCell align="left">
+                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+
                     <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
+
+                    </a>
                   </TableCell>
                   <TableCell align="left">{row.job_age}</TableCell>
                   <TableCell align="left">
@@ -186,7 +203,9 @@ export default function APIInput({token}) {
             </TableBody>
           </Table>
         </TableContainer>
-      </DataContext.Provider>
+
+        </Wrapper>
+
     </div>
   );
 }

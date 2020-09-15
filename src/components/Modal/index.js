@@ -35,20 +35,28 @@ export default function TransitionsModal(props) {
   const [rentPrice, setRentPrice] = useState("");
   const [basicPrice, setBasicPrice] = useState("");
 
-  //const Context = useContext(DataContext);
 
-  // useEffect(() => {
-  //   console.log();
-  // }, []);
 
   const findPrice = (res, string) => {
     const price = res.find((obj) => obj.item_name === string);
     return price;
   };
 
+  const filterPrice = (res, string) => {
+    if(findPrice(res.prices, string)){
+      return findPrice(res.prices, string)
+      .average_price
+    }
+    else{
+      return 
+    }
+  }
+
+
   const toTwoDigit = (num) => {
     return parseInt(num).toFixed(2);
   };
+
 
   const handleOpen = (event) => {
     setOpen(true);
@@ -57,56 +65,42 @@ export default function TransitionsModal(props) {
 
     API.ItemPrices(cityState).then((res) => {
       if (res.error) {
+
         API.ItemPrices(justCity).then((res) => {
+
+
           setGasPrice(
-            findPrice(res.prices, "Gasoline (1 liter), Transportation")
-              .average_price / 0.264172
-          );
+            filterPrice(res, "Gasoline (1 liter), Transportation")/ 0.264172 
+            );
           setBeerPrice(
-            findPrice(res.prices, "Domestic Beer (0.5 liter bottle), Markets")
-              .average_price
+            filterPrice(res, "Domestic Beer (0.5 liter bottle), Markets")
           );
           setMealPrice(
-            findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
-              .average_price
+            filterPrice(res, "Meal, Inexpensive Restaurant, Restaurants")
           );
           setRentPrice(
-            findPrice(
-              res.prices,
-              "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-            ).average_price
+            filterPrice(res, "Apartment (1 bedroom) Outside of Centre, Rent Per Month")
           );
           setBasicPrice(
-            findPrice(
-              res.prices,
-              "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-            ).average_price
+            filterPrice(res, "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)")
           );
         });
       } else if (res) {
+
         setGasPrice(
-          findPrice(res.prices, "Gasoline (1 liter), Transportation")
-            .average_price / 0.264172
-        );
+          filterPrice(res, "Gasoline (1 liter), Transportation")/ 0.264172 
+          );
         setBeerPrice(
-          findPrice(res.prices, "Domestic Beer (0.5 liter bottle), Markets")
-            .average_price
+          filterPrice(res, "Domestic Beer (0.5 liter bottle), Markets")
         );
         setMealPrice(
-          findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
-            .average_price
+          filterPrice(res, "Meal, Inexpensive Restaurant, Restaurants")
         );
         setRentPrice(
-          findPrice(
-            res.prices,
-            "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-          ).average_price
+          filterPrice(res, "Apartment (1 bedroom) Outside of Centre, Rent Per Month")
         );
         setBasicPrice(
-          findPrice(
-            res.prices,
-            "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-          ).average_price
+          filterPrice(res, "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)")
         );
       }
     });
@@ -154,26 +148,26 @@ export default function TransitionsModal(props) {
               <tbody>
                 <tr className="gasoline">
                   <td>Gasoline (1 Gallon)</td>
-                  <td className="gasPrice">{formatter.format(gasPrice)}</td>
+              <td className="gasPrice">{isNaN(gasPrice) ? "Cost Unavailable" : formatter.format(gasPrice)}</td>
                 </tr>
                 <tr>
                   <td>Domestic Beer (0.5 liter draft)</td>
-                  <td>{formatter.format(beerPrice)}</td>
+                  <td>{isNaN(beerPrice) ? "Cost Unavailable" : formatter.format(beerPrice)}</td>
                 </tr>
                 <tr>
                   <td>Meal, Inexpensive Restaurant, Restaurants</td>
-                  <td>{formatter.format(mealPrice)}</td>
+                  <td>{isNaN(mealPrice) ? "Cost Unavailable" : formatter.format(mealPrice)}</td>
                 </tr>
                 <tr>
                   <td>Apartment (1 bedroom) Outside of Centre, Rent Per Month</td>
-                  <td>{formatter.format(rentPrice)}</td>
+                  <td>{isNaN(rentPrice) ? "Cost Unavailable" : formatter.format(rentPrice)}</td>
                 </tr>
                 <tr>
                   <td>
                     Basic (Electricity, Heating, Cooling, Water, Garbage) for
                     85m2 Apartment, Utilities (Monthly)
                   </td>
-                  <td>{formatter.format(basicPrice)}</td>
+                  <td>{isNaN(basicPrice) ? "Cost Unavailable" : formatter.format(basicPrice)}</td>
                 </tr>
               </tbody>
             </table>
