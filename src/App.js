@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Wrapper from "./components/Wrapper"
 import CreateProfile from './pages/CreateProfile';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,8 +13,10 @@ function App() {
     <div>
       <ToastContainer />
       <Header />
+      <Wrapper>
       <CreateProfile />
       <Home />
+      </Wrapper>
       <Footer />
     </div>
 

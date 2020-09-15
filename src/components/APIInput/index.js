@@ -13,6 +13,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ModalCard from "../Modal";
 import Slider from "../Slider";
+import Wrapper from "../Wrapper"
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +29,26 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+
+//Table Detailing
+// const StyledTableCell = withStyles((theme) => ({
+//   head: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//   },
+//   body: {
+//     fontSize: 14,
+//   },
+// }))(TableCell);
+
+// const StyledTableRow = withStyles((theme) => ({
+//   root: {
+//     '&:nth-of-type(odd)': {
+//       backgroundColor: theme.palette.action.hover,
+//     },
+//   },
+// }))(TableRow);
 
 // Created Context
 export const DataContext = createContext();
@@ -41,18 +65,20 @@ export default function APIInput() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if(job === "" && location === "" && range === ""){
+      toast.success("Displaying most recently posted jobs in the USA")
+    }
+
     API.zipRecruiter(job, location, range, result).then((res) => {
       setZipResult(res.jobs);
     });
   };
 
-  // useEffect(()=>{
-  //   console.log("ziprecruiter outside",zipResult)
-  // }, [zipResult])
+
 
   return (
     <div>
-      <DataContext.Provider value={zipResult}>
+    
         <form
           className={classes.root}
           noValidate
@@ -94,6 +120,8 @@ export default function APIInput() {
 
         <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
 
+<Wrapper>
+
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -118,9 +146,20 @@ export default function APIInput() {
                     </ModalCard>
                   </TableCell>
                   <TableCell align="left">{row.hiring_company.name}</TableCell>
-                  <TableCell align="left">{row.location}</TableCell>
                   <TableCell align="left">
+                  <ModalCard
+                      location={row.city + ", " + row.state}
+                      city={row.city}
+                    >
+                    {row.location}
+                    </ModalCard>
+                    </TableCell>
+                  <TableCell align="left">
+                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+
                     <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
+
+                    </a>
                   </TableCell>
                   <TableCell align="left">{row.job_age}</TableCell>
                   <TableCell align="left">
@@ -133,7 +172,9 @@ export default function APIInput() {
             </TableBody>
           </Table>
         </TableContainer>
-      </DataContext.Provider>
+
+        </Wrapper>
+
     </div>
   );
 }
