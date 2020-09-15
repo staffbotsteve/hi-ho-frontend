@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
@@ -89,7 +89,7 @@ export default function APIInput() {
             value={range}
           />
           <Help />
-          <Slider onChange={(e) => setResult(JSON.stringify(e.target.value))} />
+          <Slider onChange={(e) => setResult(e)} />
         </form>
 
         <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>

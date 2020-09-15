@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InputSlider() {
+export default function InputSlider(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(30);
 
@@ -26,6 +26,12 @@ export default function InputSlider() {
   const handleInputChange = (event) => {
     setValue(event.target.value === "" ? "" : Number(event.target.value));
   };
+
+  useEffect(() => {
+    if (props.onChange) {
+      props.onChange(value);
+    }
+  }, [value]);
 
   const handleBlur = () => {
     if (value < 0) {
@@ -62,7 +68,7 @@ export default function InputSlider() {
             inputProps={{
               step: 10,
               min: 0,
-              max: 100,
+              max: 500,
               type: "number",
               "aria-labelledby": "input-slider",
             }}

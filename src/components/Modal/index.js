@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import API from "../../utils/API";
-import { DataContext } from "../APIInput";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -33,6 +32,7 @@ export default function TransitionsModal(props) {
   const [gasPrice, setGasPrice] = useState("");
   const [beerPrice, setBeerPrice] = useState("");
   const [mealPrice, setMealPrice] = useState("");
+  const [rentPrice, setRentPrice] = useState("");
   const [basicPrice, setBasicPrice] = useState("");
 
   //const Context = useContext(DataContext);
@@ -47,8 +47,8 @@ export default function TransitionsModal(props) {
   };
 
   const toTwoDigit = (num) => {
-    return parseInt(num).toFixed(2)
-  }
+    return parseInt(num).toFixed(2);
+  };
 
   const handleOpen = (event) => {
     setOpen(true);
@@ -70,6 +70,12 @@ export default function TransitionsModal(props) {
             findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
               .average_price
           );
+          setRentPrice(
+            findPrice(
+              res.prices,
+              "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+            ).average_price
+          );
           setBasicPrice(
             findPrice(
               res.prices,
@@ -89,6 +95,12 @@ export default function TransitionsModal(props) {
         setMealPrice(
           findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
             .average_price
+        );
+        setRentPrice(
+          findPrice(
+            res.prices,
+            "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+          ).average_price
         );
         setBasicPrice(
           findPrice(
@@ -151,6 +163,10 @@ export default function TransitionsModal(props) {
                 <tr>
                   <td>Meal, Inexpensive Restaurant, Restaurants</td>
                   <td>{formatter.format(mealPrice)}</td>
+                </tr>
+                <tr>
+                  <td>Apartment (1 bedroom) Outside of Centre, Rent Per Month</td>
+                  <td>{formatter.format(rentPrice)}</td>
                 </tr>
                 <tr>
                   <td>
