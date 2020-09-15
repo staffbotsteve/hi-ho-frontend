@@ -46,29 +46,57 @@ export default function TransitionsModal(props) {
     return price;
   };
 
+  const toTwoDigit = (num) => {
+    return parseInt(num).toFixed(2)
+  }
+
   const handleOpen = (event) => {
     setOpen(true);
     const cityState = event.target.getAttribute("location");
+    const justCity = event.target.getAttribute("city");
 
     API.ItemPrices(cityState).then((res) => {
-      setGasPrice(
-        findPrice(res.prices, "Gasoline (1 liter), Transportation")
-          .average_price / 0.264172
-      );
-      setBeerPrice(
-        findPrice(res.prices, "Domestic Beer (0.5 liter bottle), Markets")
-          .average_price
-      );
-      setMealPrice(
-        findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
-          .average_price
-      );
-      setBasicPrice(
-        findPrice(
-          res.prices,
-          "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-        ).average_price
-      );
+      if (res.error) {
+        API.ItemPrices(justCity).then((res) => {
+          setGasPrice(
+            findPrice(res.prices, "Gasoline (1 liter), Transportation")
+              .average_price / 0.264172
+          );
+          setBeerPrice(
+            findPrice(res.prices, "Domestic Beer (0.5 liter bottle), Markets")
+              .average_price
+          );
+          setMealPrice(
+            findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
+              .average_price
+          );
+          setBasicPrice(
+            findPrice(
+              res.prices,
+              "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+            ).average_price
+          );
+        });
+      } else if (res) {
+        setGasPrice(
+          findPrice(res.prices, "Gasoline (1 liter), Transportation")
+            .average_price / 0.264172
+        );
+        setBeerPrice(
+          findPrice(res.prices, "Domestic Beer (0.5 liter bottle), Markets")
+            .average_price
+        );
+        setMealPrice(
+          findPrice(res.prices, "Meal, Inexpensive Restaurant, Restaurants")
+            .average_price
+        );
+        setBasicPrice(
+          findPrice(
+            res.prices,
+            "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+          ).average_price
+        );
+      }
     });
 
     API.CostOfLiving(cityState).then((res) => {
@@ -82,7 +110,7 @@ export default function TransitionsModal(props) {
 
   return (
     <div>
-      <p onClick={handleOpen} location={props.location}>
+      <p onClick={handleOpen} location={props.location} city={props.city}>
         {props.children}
       </p>
       <Modal
@@ -106,7 +134,7 @@ export default function TransitionsModal(props) {
                 ? "Cost of living index of " +
                   props.location +
                   " is " +
-                  costLiving
+                  toTwoDigit(costLiving)
                 : "There is no Cost of Living Index available for this area."}
             </p>
             <p id="transition-modal-description"></p>

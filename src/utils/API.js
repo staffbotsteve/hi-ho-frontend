@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  zipRecruiter: function (job, location, range) {
+  zipRecruiter: function (job, location, range, numResult) {
     return axios.get(
       "https://api.ziprecruiter.com/jobs/v1?search=" +
         job +
@@ -9,7 +9,7 @@ export default {
         location +
         "&radius_miles=" +
         range +
-        "&days_ago=&jobs_per_page=10&page=1&api_key=un8v7z7yk9yyiuquy49vj9tnduejbwc8"
+        "&days_ago=&jobs_per_page=" + numResult + "&page=1&api_key=un8v7z7yk9yyiuquy49vj9tnduejbwc8"
     ).then((res) => {
       return res.data
     })

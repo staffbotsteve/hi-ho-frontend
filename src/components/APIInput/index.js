@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
@@ -11,7 +11,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Modal from "../Modal";
+import ModalCard from "../Modal";
+import Slider from "../Slider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,15 +32,16 @@ export const DataContext = createContext();
 export default function APIInput() {
   const classes = useStyles();
 
+  const [job, setJob] = useState("");
   const [location, setLocation] = useState("");
   const [range, setRange] = useState("");
-  const [job, setJob] = useState("");
+  const [result, setResult] = useState("");
   const [zipResult, setZipResult] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    API.zipRecruiter(job, location, range).then((res) => {
+    API.zipRecruiter(job, location, range, result).then((res) => {
       setZipResult(res.jobs);
     });
   };
@@ -87,6 +89,7 @@ export default function APIInput() {
             value={range}
           />
           <Help />
+          <Slider onChange={(e) => setResult(JSON.stringify(e.target.value))} />
         </form>
 
         <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
@@ -107,9 +110,12 @@ export default function APIInput() {
               {zipResult.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    <Modal location={row.city + ", " + row.state}>
+                    <ModalCard
+                      location={row.city + ", " + row.state}
+                      city={row.city}
+                    >
                       {row.name}
-                    </Modal>
+                    </ModalCard>
                   </TableCell>
                   <TableCell align="left">{row.hiring_company.name}</TableCell>
                   <TableCell align="left">{row.location}</TableCell>
