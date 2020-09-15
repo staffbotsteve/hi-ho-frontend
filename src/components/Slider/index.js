@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 export default function InputSlider(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(30);
+  const [value, setValue] = React.useState(25);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
@@ -34,10 +34,10 @@ export default function InputSlider(props) {
   }, [value]);
 
   const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    if (value < 5) {
+      setValue(5);
+    } else if (value > 500) {
+      setValue(500);
     }
   };
 
@@ -67,7 +67,7 @@ export default function InputSlider(props) {
             onBlur={handleBlur}
             inputProps={{
               step: 10,
-              min: 0,
+              min: 5,
               max: 500,
               type: "number",
               "aria-labelledby": "input-slider",
