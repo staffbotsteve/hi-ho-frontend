@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
@@ -33,10 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Created Context
-export const DataContext = createContext();
-
-export default function APIInput({token}) {
+export default function APIInput({ token }) {
   const classes = useStyles();
 
   const [job, setJob] = useState("");
@@ -48,7 +45,7 @@ export default function APIInput({token}) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(job === "" && location === "" && range === ""){
+    if (job === "" && location === "" && range === "") {
       toast.success("Displaying most recently posted jobs in the USA")
     }
 
@@ -74,13 +71,14 @@ export default function APIInput({token}) {
       url,
       city,
       state,
+      posted_time
     } = data;
 
-    console.log("data", data)
+   
     const company = hiring_company.name;
-    const {id} = token;
+    const { id } = token;
 
-    if (!token){
+    if (!token) {
       toast.error("Must be logged in to save")
     } else {
       fetch(`${backendUrl}/jobs`, {
@@ -98,62 +96,61 @@ export default function APIInput({token}) {
           url,
           city,
           state,
+          posted_time
         }),
       })
-      .then(res => res.json())
-      .then(data => {
-        console.log("data", data)
-      })
+        .then(res => res.json())
+        .then(data => {
+          toast.success("Job saved to profile")
+        })
     };
-    }
-   
+  }
+
 
   return (
     <div>
-    
-        <form
-          className={classes.root}
-          noValidate
-          autoComplete="off"
-          style={{ display: "flex" }}
-        >
-          <TextField
-            required
-            id="outlined-required"
-            label="Job Keyword"
-            placeholder="ex. Engineer"
-            variant="outlined"
-            onChange={(e) => setJob(e.target.value)}
-            value={job}
-          />
 
-          <TextField
-            required
-            id="outlined-required"
-            label="Location"
-            placeholder="ex. Berkeley"
-            variant="outlined"
-            onChange={(e) => setLocation(e.target.value)}
-            value={location}
-          />
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        style={{ display: "flex" }}
+      >
+        <TextField
+          required
+          id="outlined-required"
+          label="Job Keyword"
+          placeholder="ex. Engineer"
+          variant="outlined"
+          onChange={(e) => setJob(e.target.value)}
+          value={job}
+        />
 
-          <TextField
-            required
-            id="outlined-required"
-            label="Mile Radius"
-            placeholder="ex. 25"
-            variant="outlined"
-            onChange={(e) => setRange(e.target.value)}
-            value={range}
-          />
-          <Help />
-          <Slider onChange={(e) => setResult(e)} />
-        </form>
+        <TextField
+          required
+          id="outlined-required"
+          label="Location"
+          placeholder="ex. Berkeley"
+          variant="outlined"
+          onChange={(e) => setLocation(e.target.value)}
+          value={location}
+        />
 
-        <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
+        <TextField
+          required
+          id="outlined-required"
+          label="Mile Radius"
+          placeholder="ex. 25"
+          variant="outlined"
+          onChange={(e) => setRange(e.target.value)}
+          value={range}
+        />
+        <Help />
+        <Slider onChange={(e) => setResult(e)} />
+      </form>
 
-<Wrapper>
-
+      <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
+      <Wrapper>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -181,18 +178,18 @@ export default function APIInput({token}) {
                   </TableCell>
                   <TableCell align="left">{row.hiring_company.name}</TableCell>
                   <TableCell align="left">
-                  <ModalCard
+                    <ModalCard
                       location={row.city + ", " + row.state}
                       city={row.city}
                       name={row.name}
                     >
-                    {row.location}
+                      {row.location}
                     </ModalCard>
-                    </TableCell>
+                  </TableCell>
                   <TableCell align="left">
                     <a href={row.url} target="_blank" rel="noopener noreferrer">
 
-                    <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
+                      <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
 
                     </a>
                   </TableCell>
@@ -203,7 +200,7 @@ export default function APIInput({token}) {
                     </a>
                   </TableCell>
                   <TableCell align="left">
-                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)}>
+                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
                       Save
                     </Button>
                   </TableCell>
@@ -212,9 +209,7 @@ export default function APIInput({token}) {
             </TableBody>
           </Table>
         </TableContainer>
-
-        </Wrapper>
-
+      </Wrapper>
     </div>
   );
 }

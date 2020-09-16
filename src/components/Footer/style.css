@@ -1,7 +1,10 @@
 .footer {
   min-height: 70px;
   background: #a0aeff;
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   text-align: center;
 }
 

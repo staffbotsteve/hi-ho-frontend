@@ -11,6 +11,7 @@ import Login from "./components/login";
 import jwtDecode from "jwt-decode";
 import Profile from "./components/Profile";
 
+
 function App() {
   const [token, setToken] = useState("");
 
@@ -24,7 +25,7 @@ function App() {
 
   return (
     <div>
-      <ToastContainer />
+       <ToastContainer />
       <Header token={token} />
       <Switch>
         <Route

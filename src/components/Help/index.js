@@ -11,8 +11,8 @@ Enter the number of miles you would like to use for your search radius. EX. An i
 export default function Help() {
 
   return (
-    <div>
-      <Tooltip title={longText}>
+    <div style={{ width: "30px" }}>
+      <Tooltip title={longText} >
       <HelpOutlineIcon />
       </Tooltip>
     </div>
