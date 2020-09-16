@@ -1,10 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect}from 'react';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Wrapper from "./components/Wrapper"
 import CreateProfile from './pages/CreateProfile';
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
@@ -12,6 +10,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./components/login";
 import jwtDecode from "jwt-decode";
 import Profile from "./components/Profile";
+
 function App() {
   const [token, setToken] = useState("");
 

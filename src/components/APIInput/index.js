@@ -75,31 +75,38 @@ export default function APIInput({token}) {
       city,
       state,
     } = data;
+
+    console.log("data", data)
     const company = hiring_company.name;
     const {id} = token;
 
-    fetch(`${backendUrl}/jobs`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: id,
-        name,
-        company,
-        location,
-        snippet,
-        job_age,
-        url,
-        city,
-        state,
-      }),
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("data", data)
-    })
-  };
+    if (!token){
+      toast.error("Must be logged in to save")
+    } else {
+      fetch(`${backendUrl}/jobs`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: id,
+          name,
+          company,
+          location,
+          snippet,
+          job_age,
+          url,
+          city,
+          state,
+        }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log("data", data)
+      })
+    };
+    }
+   
 
   return (
     <div>
@@ -167,6 +174,7 @@ export default function APIInput({token}) {
                     <ModalCard
                       location={row.city + ", " + row.state}
                       city={row.city}
+                      name={row.name}
                     >
                       {row.name}
                     </ModalCard>
@@ -176,6 +184,7 @@ export default function APIInput({token}) {
                   <ModalCard
                       location={row.city + ", " + row.state}
                       city={row.city}
+                      name={row.name}
                     >
                     {row.location}
                     </ModalCard>
