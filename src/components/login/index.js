@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
 import { toast } from "react-toastify";
 
 import FormControl from "@material-ui/core/FormControl";
@@ -105,6 +104,7 @@ export default function Login() {
       <FormControl className={classes.margin}>
         <BootstrapInput
           id="demo-customized-textbox"
+          type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

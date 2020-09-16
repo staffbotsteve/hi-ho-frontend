@@ -133,7 +133,7 @@ export default function TransitionsModal(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">{props.children}</h2>
+            <h2 id="transition-modal-title">{props.name}</h2>
             <p id="transition-modal-description">{props.location}</p>
             <p id="transition-modal-description">
               {costLiving
