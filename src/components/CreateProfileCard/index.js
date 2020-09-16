@@ -24,8 +24,8 @@ export default function CreateProfileCard() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [minSalary, setMinSalary] = useState("");
+  // const [jobTitle, setJobTitle] = useState("");
+  // const [minSalary, setMinSalary] = useState("");
 
   const clearInput = (inputs) => {
     inputs.forEach((input) => input(""));
@@ -42,9 +42,9 @@ export default function CreateProfileCard() {
       lastName === "" ||
       email === "" ||
       password === "" ||
-      confirmPassword === "" ||
-      jobTitle === "" ||
-      minSalary === ""
+      confirmPassword === ""
+      // jobTitle === "" ||
+      // minSalary === ""
     ) {
       toast.error("Please fill all required field(s)");
     }
@@ -67,8 +67,8 @@ export default function CreateProfileCard() {
         email,
         phone,
         password,
-        jobTitle,
-        minSalary,
+        // jobTitle,
+        // minSalary,
       }),
     })
       .then((res) => res.json())
@@ -85,8 +85,8 @@ export default function CreateProfileCard() {
             setPhone,
             setPassword,
             setConfirmPassword,
-            setJobTitle,
-            setMinSalary,
+            // setJobTitle,
+            // setMinSalary,
           ];
           clearInput(inputs);
           window.location = "/";
@@ -156,7 +156,7 @@ export default function CreateProfileCard() {
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
           />
-          <TextField
+          {/* <TextField
             required
             id="outlined-required"
             label="Job Title"
@@ -173,7 +173,7 @@ export default function CreateProfileCard() {
             variant="outlined"
             onChange={(e) => setMinSalary(e.target.value)}
             value={minSalary}
-          />
+          /> */}
           <SubmitBtn handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
         </Card>
       </div>
