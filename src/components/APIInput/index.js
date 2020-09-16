@@ -51,7 +51,6 @@ export default function APIInput({ token }) {
 
     API.zipRecruiter(job, location, range, result).then((res) => {
       setZipResult(res.jobs);
-      console.log("jobs", res.jobs);
     });
   };
 
@@ -195,9 +194,9 @@ export default function APIInput({ token }) {
                   </TableCell>
                   <TableCell align="left">{row.job_age}</TableCell>
                   <TableCell align="left">
-                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} href={row.url} target="_blank" rel="noopener noreferrer">
                       Apply
-                    </a>
+                    </Button>
                   </TableCell>
                   <TableCell align="left">
                     <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
