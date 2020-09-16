@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ModalCard from "../Modal";
+import Wrapper from "../Wrapper"
 
 const useStyles = makeStyles({
   root: {
@@ -39,38 +40,36 @@ const Profile = ({ token }) => {
   const accessToken = localStorage.getItem("token");
 
   useEffect(() => {
-    getProfile();
-    getSavedJobs();
-  }, [token]);
-
-  const getProfile = () => {
-    fetch(`${url}/me/${token.id}`, {
-      headers: {
-        Authorization: accessToken,
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log("got hereeee");
+    const updateProfile = () => {
+      fetch(`${url}/me/${token.id}`, {
+        headers: {
+          Authorization: accessToken,
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log("got hereeee");
+          const { data } = response;
+  
+          if (response.success) {
+            setData(data);
+            console.log("data profile", response);
+          }
+        });
+        
+      fetch(`${url}/jobs/${token.id}`)
+      .then(res => res.json())
+      .then(response => {
         const { data } = response;
-
-        if (response.success) {
-          setData(data);
-          console.log("data profile", response);
-        }
-      });
-  };
-
-  const getSavedJobs = () => {
-    fetch(`${url}/jobs/${token.id}`)
-    .then(res => res.json())
-    .then(response => {
-      const {data} = response;
-      console.log("data", data)
-      setZipResult(data);
-    })
-  }
+        console.log("data", data)
+        setZipResult(data);
+      })
+    }
+    if (token) {
+      updateProfile()
+    }
+  });
 
   const classes = useStyles();
 
@@ -80,6 +79,7 @@ const Profile = ({ token }) => {
 
   return (
     <div>
+      <Wrapper>
       {objLength !== 0 && (
         <Card className={classes.root}>
           <CardContent>
@@ -158,47 +158,49 @@ const Profile = ({ token }) => {
           </CardContent>
         </Card>
       )}
-
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Job Title</TableCell>
-              <TableCell align="left">Company</TableCell>
-              <TableCell align="left">Location</TableCell>
-              <TableCell align="left">Summary</TableCell>
-              <TableCell align="left">Days Posted</TableCell>
-              <TableCell align="left">Application</TableCell>
-              <TableCell align="left"></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {zipResult.map((row, i) => (
-              <TableRow key={i}>
-                <TableCell component="th" scope="row">
-                  <ModalCard
-                    location={row.city + ", " + row.state}
-                    city={row.city}
-                  >
-                    {row.name}
-                  </ModalCard>
-                </TableCell>
-                <TableCell align="left">{row.company}</TableCell>
-                <TableCell align="left">{row.location}</TableCell>
-                <TableCell align="left">
-                  <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
-                </TableCell>
-                <TableCell align="left">{row.job_age}</TableCell>
-                <TableCell align="left">
-                  <a href={row.url} target="_blank" rel="noopener noreferrer">
-                    Apply
-                  </a>
-                </TableCell>
+      
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Job Title</TableCell>
+                <TableCell align="left">Company</TableCell>
+                <TableCell align="left">Location</TableCell>
+                <TableCell align="left">Summary</TableCell>
+                <TableCell align="left">Date Posted</TableCell>
+                <TableCell align="left">Application</TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {zipResult.map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell component="th" scope="row">
+                    <ModalCard
+                      location={row.city + ", " + row.state}
+                      city={row.city}
+                    >
+                      {row.name}
+                    </ModalCard>
+                  </TableCell>
+                  <TableCell align="left">{row.company}</TableCell>
+                  <TableCell align="left">{row.location}</TableCell>
+                  <TableCell align="left">
+                    <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
+                  </TableCell>
+                  <TableCell align="left">{row.posted_time}</TableCell>
+                  <TableCell align="left">
+                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+                      Apply
+                  </a>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Wrapper>
+
     </div>
   );
 };

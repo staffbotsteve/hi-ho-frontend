@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -21,17 +21,15 @@ export default function InputSlider(props) {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
+    if (props.onChange) {
+      props.onChange(newValue);
+    }
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === "" ? "" : Number(event.target.value));
   };
 
-  useEffect(() => {
-    if (props.onChange) {
-      props.onChange(value);
-    }
-  }, [value]);
 
   const handleBlur = () => {
     if (value < 5) {

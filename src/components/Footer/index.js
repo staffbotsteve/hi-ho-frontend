@@ -10,11 +10,11 @@ function Footer() {
       <div className="link-cluster">
         
 
-        <a href="https://github.com/tpoovaiah" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/staffbotsteve/hi-ho-frontend" target="_blank" rel="noopener noreferrer">
           Front-End
         </a>
 
-        <a href="https://github.com/tpoovaiah" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/staffbotsteve/hi-ho-backend" target="_blank" rel="noopener noreferrer">
           <img
             src="https://image.flaticon.com/icons/png/512/25/25231.png"
             className="smlink"

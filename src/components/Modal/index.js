@@ -35,8 +35,6 @@ export default function TransitionsModal(props) {
   const [rentPrice, setRentPrice] = useState("");
   const [basicPrice, setBasicPrice] = useState("");
 
-
-
   const findPrice = (res, string) => {
     const price = res.find((obj) => obj.item_name === string);
     return price;

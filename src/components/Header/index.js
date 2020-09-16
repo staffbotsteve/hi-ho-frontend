@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
@@ -39,12 +39,11 @@ export default function Header({ token }) {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+           {/* Put logo here */}
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Hi Ho - It's off to work we go...
           </Typography>
-          {/* <GoogleMaps /> */}
           <nav className="nav-links">
             <Link to="/">Search</Link>
 

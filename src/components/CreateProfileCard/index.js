@@ -174,7 +174,6 @@ export default function CreateProfileCard() {
             onChange={(e) => setMinSalary(e.target.value)}
             value={minSalary}
           />
-          {/* <PhoneNumberCard /> */}
           <SubmitBtn handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
         </Card>
       </div>
