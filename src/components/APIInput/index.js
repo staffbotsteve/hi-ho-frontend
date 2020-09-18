@@ -54,6 +54,20 @@ export default function APIInput({ token }) {
     });
   };
 
+  // useEffect(() => {
+  //   const listener = event => {
+  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //       console.log("event", event.target.value)
+  //      handleSubmit(event)
+        
+  //     }
+  //   };
+  //   document.addEventListener("keydown", listener);
+  //   return () => {
+  //     document.removeEventListener("keydown", listener);
+  //   };
+  // }, []);
+
   useEffect(() => {
     console.log("got here", token);
   }, [token]);
@@ -114,6 +128,7 @@ export default function APIInput({ token }) {
         noValidate
         autoComplete="off"
         style={{ display: "flex" }}
+        onSubmit={handleSubmit}
       >
         <TextField
           required
@@ -133,6 +148,7 @@ export default function APIInput({ token }) {
           variant="outlined"
           onChange={(e) => setLocation(e.target.value)}
           value={location}
+
         />
 
         <TextField
@@ -146,9 +162,12 @@ export default function APIInput({ token }) {
         />
         <Help />
         <Slider onChange={(e) => setResult(e)} />
+        <br></br>
+       
+        <SubmitBtn type="submit" handleSubmit={handleSubmit} >Submit</SubmitBtn>
       </form>
 
-      <SubmitBtn handleSubmit={handleSubmit}>Submit</SubmitBtn>
+      
       <Wrapper>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">

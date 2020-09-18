@@ -86,13 +86,13 @@ export default function Login() {
 
           window.location = "/"
         } else {
-          toast.error(data.error);
+          toast.error("Invalid Login");
         }
       });
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <FormControl className={classes.margin}>
         <BootstrapInput
           id="demo-customized-textbox"
@@ -111,8 +111,8 @@ export default function Login() {
         />
       </FormControl>
       <div>
-      <SubmitBtn handleSubmit={handleSubmit} >Login</SubmitBtn>
+      <SubmitBtn type="submit" handleSubmit={handleSubmit} >Login</SubmitBtn>
       </div>
-    </div>
+    </form>
   );
 }

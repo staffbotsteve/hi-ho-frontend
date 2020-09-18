@@ -95,7 +95,7 @@ export default function CreateProfileCard() {
   };
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
       <div>
         <Card className={classes.root}>
           <TextField
@@ -174,7 +174,7 @@ export default function CreateProfileCard() {
             onChange={(e) => setMinSalary(e.target.value)}
             value={minSalary}
           /> */}
-          <SubmitBtn handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
+          <SubmitBtn type="submit" handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
         </Card>
       </div>
     </form>

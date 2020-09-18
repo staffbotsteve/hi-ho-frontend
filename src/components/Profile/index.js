@@ -112,9 +112,14 @@ const Profile = ({ token }) => {
 
   const classes = useStyles();
 
-  const { firstName, lastName, email, minSalary, jobTitle, phone } = data;
+  const { firstName, lastName, email, phone } = data;
 
   const objLength = Object.keys(data).length;
+
+  const formatTime = (date) => {
+    const dateTime = date.replace("T", "-").split("-")
+    return `${dateTime[1]}-${dateTime[2]}-${dateTime[0]}`
+  }
 
   return (
     <div>
@@ -227,7 +232,7 @@ const Profile = ({ token }) => {
                   <TableCell align="left">
                     <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
                   </TableCell>
-                  <TableCell align="left">{row.posted_time}</TableCell>
+                  <TableCell align="left">{formatTime(row.posted_time)}</TableCell>
                   <TableCell align="left">
                     <Button variant="contained" color="primary" href={row.url} target="_blank" rel="noopener noreferrer" >
                       Apply
