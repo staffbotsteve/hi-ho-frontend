@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
@@ -20,6 +20,7 @@ import Wrapper from "../Wrapper"
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,20 +55,6 @@ export default function APIInput({ token }) {
     });
   };
 
-  // useEffect(() => {
-  //   const listener = event => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("event", event.target.value)
-  //      handleSubmit(event)
-        
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, []);
-
   useEffect(() => {
     console.log("got here", token);
   }, [token]);
@@ -87,7 +74,7 @@ export default function APIInput({ token }) {
       posted_time
     } = data;
 
-   
+
     const company = hiring_company.name;
     const { id } = token;
 
@@ -119,15 +106,15 @@ export default function APIInput({ token }) {
     };
   }
 
-
   return (
     <div>
 
       <form
+
         className={classes.root}
         noValidate
         autoComplete="off"
-        style={{ display: "flex" }}
+        style={{ display: "flex", alignItems: "center", justifyContent:"center", margin:"50px" }}
         onSubmit={handleSubmit}
       >
         <TextField
@@ -163,71 +150,72 @@ export default function APIInput({ token }) {
         <Help />
         <Slider onChange={(e) => setResult(e)} />
         <br></br>
-       
+
         <SubmitBtn type="submit" handleSubmit={handleSubmit} >Submit</SubmitBtn>
       </form>
 
-      
-      <Wrapper>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Job Title</TableCell>
-                <TableCell align="left">Company</TableCell>
-                <TableCell align="left">Location</TableCell>
-                <TableCell align="left">Summary</TableCell>
-                <TableCell align="left">Days Posted</TableCell>
-                <TableCell align="left">Application</TableCell>
-                <TableCell align="left"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {zipResult.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    <ModalCard
-                      location={row.city + ", " + row.state}
-                      city={row.city}
-                      name={row.name}
-                    >
-                      {row.name}
-                    </ModalCard>
-                  </TableCell>
-                  <TableCell align="left">{row.hiring_company.name}</TableCell>
-                  <TableCell align="left">
-                    <ModalCard
-                      location={row.city + ", " + row.state}
-                      city={row.city}
-                      name={row.name}
-                    >
-                      {row.location}
-                    </ModalCard>
-                  </TableCell>
-                  <TableCell align="left">
-                    <a href={row.url} target="_blank" rel="noopener noreferrer">
-
-                      <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
-
-                    </a>
-                  </TableCell>
-                  <TableCell align="left">{row.job_age}</TableCell>
-                  <TableCell align="left">
-                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} href={row.url} target="_blank" rel="noopener noreferrer">
-                      Apply
-                    </Button>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
-                      Save
-                    </Button>
-                  </TableCell>
+      <div>
+        <Wrapper>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell><strong>Job Title</strong></TableCell>
+                  <TableCell align="left"><strong>Company</strong></TableCell>
+                  <TableCell align="left"><strong>Location</strong></TableCell>
+                  <TableCell align="left"><strong>Summary</strong></TableCell>
+                  <TableCell align="left"><strong>Days Posted</strong></TableCell>
+                  <TableCell align="left"><strong>Application</strong></TableCell>
+                  <TableCell align="left"></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Wrapper>
+              </TableHead>
+              <TableBody>
+                {zipResult.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      <ModalCard
+                        location={row.city + ", " + row.state}
+                        city={row.city}
+                        name={row.name}
+                      >
+                        <strong>{row.name}</strong>
+                      </ModalCard>
+                    </TableCell>
+                    <TableCell align="left">{row.hiring_company.name}</TableCell>
+                    <TableCell align="left">
+                      <ModalCard
+                        location={row.city + ", " + row.state}
+                        city={row.city}
+                        name={row.name}
+                      >
+                        {row.location}
+                      </ModalCard>
+                    </TableCell>
+                    <TableCell align="left">
+                      <a href={row.url} target="_blank" rel="noopener noreferrer">
+
+                        <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
+
+                      </a>
+                    </TableCell>
+                    <TableCell align="left">{row.job_age}</TableCell>
+                    <TableCell align="left">
+                      <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} href={row.url} target="_blank" rel="noopener noreferrer">
+                        Apply
+                    </Button>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
+                        Save
+                    </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Wrapper>
+      </div>
     </div>
   );
 }

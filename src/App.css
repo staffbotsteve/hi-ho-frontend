@@ -12,3 +12,7 @@
 .profile-flex p{
   margin-right: 10px;
 }
+
+.contentContainer {
+  min-height: calc(100vh - 70px) 
+}

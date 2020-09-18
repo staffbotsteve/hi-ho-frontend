@@ -92,7 +92,8 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form  style={{textAlign: "center", marginTop: "100px"}} onSubmit={handleSubmit}>
+      <div>
       <FormControl className={classes.margin}>
         <BootstrapInput
           id="demo-customized-textbox"
@@ -101,6 +102,8 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
+      </div>
+      <div>
       <FormControl className={classes.margin}>
         <BootstrapInput
           id="demo-customized-textbox"
@@ -109,7 +112,9 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        
       </FormControl>
+      </div>
       <div>
       <SubmitBtn type="submit" handleSubmit={handleSubmit} >Login</SubmitBtn>
       </div>
