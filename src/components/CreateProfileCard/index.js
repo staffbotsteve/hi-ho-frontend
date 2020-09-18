@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import SubmitBtn from "../SubmitBtn";
-import Card from "@material-ui/core/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./style.css"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,8 +24,6 @@ export default function CreateProfileCard() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
-  // const [jobTitle, setJobTitle] = useState("");
-  // const [minSalary, setMinSalary] = useState("");
 
   const clearInput = (inputs) => {
     inputs.forEach((input) => input(""));
@@ -43,8 +41,7 @@ export default function CreateProfileCard() {
       email === "" ||
       password === "" ||
       confirmPassword === ""
-      // jobTitle === "" ||
-      // minSalary === ""
+
     ) {
       toast.error("Please fill all required field(s)");
     }
@@ -67,8 +64,6 @@ export default function CreateProfileCard() {
         email,
         phone,
         password,
-        // jobTitle,
-        // minSalary,
       }),
     })
       .then((res) => res.json())
@@ -85,8 +80,6 @@ export default function CreateProfileCard() {
             setPhone,
             setPassword,
             setConfirmPassword,
-            // setJobTitle,
-            // setMinSalary,
           ];
           clearInput(inputs);
           window.location = "/";
@@ -95,88 +88,77 @@ export default function CreateProfileCard() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-      <div>
-        <Card className={classes.root}>
-          <TextField
-            required
-            id="outlined-required"
-            label="First Name"
-            placeholder="First Name"
-            variant="outlined"
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Last Name"
-            placeholder="Last Name"
-            variant="outlined"
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Email"
-            placeholder="hello@email.com"
-            variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <TextField
-            required
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            placeholder="Password"
-            autoComplete="current-password"
-            variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-          <TextField
-            required
-            id="outlined-password-input"
-            label="Confirm Password"
-            type="password"
-            placeholder="Password"
-            autoComplete="current-password"
-            variant="outlined"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            value={confirmPassword}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Phone Number"
-            placeholder="123-456-7890"
-            variant="outlined"
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-          />
-          {/* <TextField
-            required
-            id="outlined-required"
-            label="Job Title"
-            placeholder="Job Title"
-            variant="outlined"
-            onChange={(e) => setJobTitle(e.target.value)}
-            value={jobTitle}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Minimum Salary"
-            placeholder="Minimum Salary"
-            variant="outlined"
-            onChange={(e) => setMinSalary(e.target.value)}
-            value={minSalary}
-          /> */}
-          <SubmitBtn type="submit" handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
-        </Card>
+    <form id="profileCard" onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
+      <div >
+        {/* <Card className={classes.root}> */}
+        <TextField
+          required
+          id="outlined-required"
+          label="First Name"
+          placeholder="First Name"
+          variant="outlined"
+          onChange={(e) => setFirstName(e.target.value)}
+          value={firstName}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Last Name"
+          placeholder="Last Name"
+          variant="outlined"
+          onChange={(e) => setLastName(e.target.value)}
+          value={lastName}
+        />
       </div>
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="Email"
+          placeholder="hello@email.com"
+          variant="outlined"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Phone Number"
+          placeholder="123-456-7890"
+          variant="outlined"
+          onChange={(e) => setPhone(e.target.value)}
+          value={phone}
+        />
+      </div>
+      <div>
+        <TextField
+          required
+          id="outlined-password-input"
+          label="Confirm Password"
+          type="password"
+          placeholder="Password"
+          autoComplete="current-password"
+          variant="outlined"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword}
+        />
+
+        <TextField
+          required
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          placeholder="Password"
+          autoComplete="current-password"
+          variant="outlined"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+      </div>
+      <br></br>
+      <SubmitBtn  type="submit" handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
+      {/* </Card> */}
+
     </form>
   );
 }

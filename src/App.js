@@ -26,6 +26,9 @@ function App() {
   return (
     <div>
        <ToastContainer />
+       
+      
+      <div className="contentContainer">
       <Header token={token} />
       <Switch>
         <Route
@@ -56,6 +59,7 @@ function App() {
         />
         {/* <Route path="/profile" component={Profile} exact/> */}
       </Switch>
+      </div >
       <Footer />
     </div>
   );

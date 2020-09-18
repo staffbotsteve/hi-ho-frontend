@@ -22,10 +22,10 @@ function Footer() {
           />
           Back-End
         </a>
-
-       
+      <br></br>
+        Copyright © {getYear()} Lazier Loaders
       </div>
-      <span>Copyright © {getYear()} Lazier Loaders</span>
+     
     </footer>
   );
 }

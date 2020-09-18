@@ -8,9 +8,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Card,
-  CardContent,
-  Typography,
   Button
 } from "@material-ui/core";
 import ModalCard from "../Modal";
@@ -42,7 +39,7 @@ const Profile = ({ token }) => {
   const url = process.env.REACT_APP_API_URL;
   const accessToken = localStorage.getItem("token");
 
-  
+
 
   useEffect(() => {
     const updateProfile = () => {
@@ -64,22 +61,22 @@ const Profile = ({ token }) => {
         });
 
       fetch(`${url}/jobs/${token.id}`)
-      .then(res => res.json())
-      .then(response => {
-        const { data } = response;
-        console.log("data", data)
-        setZipResult(data);
-      })
+        .then(res => res.json())
+        .then(response => {
+          const { data } = response;
+          console.log("data", data)
+          setZipResult(data);
+        })
     }
     if (token) {
       updateProfile()
     }
-  },[]);
+  }, []);
 
   const backendUrl = process.env.REACT_APP_API_URL;
 
   const handleJobDelete = (row) => {
-    
+
 
     const { id } = token;
     const objId = row._id
@@ -100,12 +97,12 @@ const Profile = ({ token }) => {
         .then(data => {
           toast.success("Job successfully deleted")
           fetch(`${url}/jobs/${token.id}`)
-          .then(res => res.json())
-          .then(response => {
-            const { data } = response;
-            console.log("data", data)
-            setZipResult(data);
-          })
+            .then(res => res.json())
+            .then(response => {
+              const { data } = response;
+              console.log("data", data)
+              setZipResult(data);
+            })
         })
     };
   }
@@ -124,96 +121,22 @@ const Profile = ({ token }) => {
   return (
     <div>
       <Wrapper>
-        {objLength !== 0 && (
-          <Card className={classes.root}>
-            <CardContent>
-              <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  First Name:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {firstName}
-                </Typography>
-              </div>
-              <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Last Name:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {lastName}
-                </Typography>
-              </div>
-              <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Email:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {email}
-                </Typography>
-              </div>
-              {/* <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Job Title:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {jobTitle}
-                </Typography>
-              </div>
-              <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Minimum Salary:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {minSalary}
-                </Typography>
-              </div> */}
-              <div className="profile-flex">
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Phone:
-              </Typography>
-                <Typography variant="h5" component="h2">
-                  {phone}
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
+        <h1 style={{ textAlign: "center" }}>Welcome {firstName} {lastName}</h1>
+        <h3 style={{ textAlign: "center" }}>Email: {email}</h3>
+        <h3 style={{ textAlign: "center" }}>Phone Number: {phone}</h3>
+        <br></br>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Job Title</TableCell>
-                <TableCell align="left">Company</TableCell>
-                <TableCell align="left">Location</TableCell>
-                <TableCell align="left">Summary</TableCell>
-                <TableCell align="left">Date Posted</TableCell>
-                <TableCell align="left">Application</TableCell>
-                <TableCell align="left"></TableCell>
+                <TableCell><strong>Job Title</strong></TableCell>
+                  <TableCell align="left"><strong>Company</strong></TableCell>
+                  <TableCell align="left"><strong>Location</strong></TableCell>
+                  <TableCell align="left"><strong>Summary</strong></TableCell>
+                  <TableCell align="left"><strong>Date Posted</strong></TableCell>
+                  <TableCell align="left"><strong>Application</strong></TableCell>
+                  <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -224,7 +147,7 @@ const Profile = ({ token }) => {
                       location={row.city + ", " + row.state}
                       city={row.city}
                     >
-                      {row.name}
+                      <strong>{row.name}</strong>
                     </ModalCard>
                   </TableCell>
                   <TableCell align="left">{row.company}</TableCell>
