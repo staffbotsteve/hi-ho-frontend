@@ -7,6 +7,8 @@ import FormControl from "@material-ui/core/FormControl";
 import InputBase from "@material-ui/core/InputBase";
 import SubmitBtn from "../SubmitBtn";
 
+import "./style.css"
+
 const BootstrapInput = withStyles((theme) => ({
   root: {
     "label + &": {
@@ -92,6 +94,8 @@ export default function Login() {
   };
 
   return (
+    <div>
+      <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="loginLogo" alt="hiho"/> 
     <form  style={{textAlign: "center", marginTop: "100px"}} onSubmit={handleSubmit}>
       <div>
       <FormControl className={classes.margin}>
@@ -119,5 +123,6 @@ export default function Login() {
       <SubmitBtn type="submit" handleSubmit={handleSubmit} >Login</SubmitBtn>
       </div>
     </form>
+    </div>
   );
 }

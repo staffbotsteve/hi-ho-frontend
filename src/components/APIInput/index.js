@@ -21,6 +21,8 @@ import Wrapper from "../Wrapper"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "./style.css"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -206,6 +208,7 @@ export default function APIInput({ token }) {
                     </TableCell>
                     <TableCell align="left">
                       <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
+                      <img src={process.env.PUBLIC_URL + '/images/hihodiamond.png'} className="diamond" alt="diamond"/> 
                         Save
                     </Button>
                     </TableCell>
