@@ -14,6 +14,7 @@ import ModalCard from "../Modal";
 import Wrapper from "../Wrapper"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfileModal from "../ProfileModal";
 
 const useStyles = makeStyles({
   root: {
@@ -125,6 +126,7 @@ const Profile = ({ token }) => {
         <h1 style={{ textAlign: "center" }}>Welcome {firstName} {lastName}</h1>
         <h3 style={{ textAlign: "center" }}>Email: {email}</h3>
         <h3 style={{ textAlign: "center" }}>Phone Number: {phone}</h3>
+        <ProfileModal data={data} />
         <br></br>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">

@@ -95,8 +95,8 @@ export default function Login() {
 
   return (
     <div>
-      <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="loginLogo" alt="hiho"/> 
     <form  style={{textAlign: "center", marginTop: "100px"}} onSubmit={handleSubmit}>
+      <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="loginLogo" alt="hiho" /> 
       <div>
       <FormControl className={classes.margin}>
         <BootstrapInput
