@@ -8,6 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
+import "./style.css"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,10 +41,12 @@ export default function Header({ token }) {
             color="inherit"
             aria-label="menu"
           >
-           {/* Put logo here */}
+            <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="logo" alt="hiho"/> 
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Hi Ho - It's off to work we go...
+            <strong style={{marginRight: "15px"}}>Hi Ho</strong>
+            <i style={{color: "lightgray"}}>It's off to work we go...</i>
+            
           </Typography>
           <nav className="nav-links">
             <Link to="/">Search</Link>
