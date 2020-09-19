@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileModal from "../ProfileModal";
 
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -39,8 +40,6 @@ const Profile = ({ token }) => {
 
   const url = process.env.REACT_APP_API_URL;
   const accessToken = localStorage.getItem("token");
-
-
 
   useEffect(() => {
     const updateProfile = () => {
@@ -112,8 +111,6 @@ const Profile = ({ token }) => {
 
   const { firstName, lastName, email, phone } = data;
 
-  const objLength = Object.keys(data).length;
-
   const formatTime = (date) => {
     const dateTime = date.replace("T", "-").split("-")
     return `${dateTime[1]}-${dateTime[2]}-${dateTime[0]}`
@@ -126,7 +123,7 @@ const Profile = ({ token }) => {
         <h1 style={{ textAlign: "center" }}>Welcome {firstName} {lastName}</h1>
         <h3 style={{ textAlign: "center" }}>Email: {email}</h3>
         <h3 style={{ textAlign: "center" }}>Phone Number: {phone}</h3>
-        <ProfileModal data={data} />
+        <ProfileModal data={data} setData={setData}/>
         <br></br>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -149,7 +146,7 @@ const Profile = ({ token }) => {
                       location={row.city + ", " + row.state}
                       city={row.city}
                     >
-                      <strong>{row.name}</strong>
+                      {row.name}
                     </ModalCard>
                   </TableCell>
                   <TableCell align="left">{row.company}</TableCell>
@@ -165,7 +162,7 @@ const Profile = ({ token }) => {
 
                   </TableCell>
                   <TableCell>
-                    <Button variant="contained" color="primary" onClick={() => handleJobDelete(row)}>
+                    <Button variant="contained" color="secondary" onClick={() => handleJobDelete(row)}>
                       Delete
                     </Button>
                   </TableCell>

@@ -44,6 +44,8 @@ export default function APIInput({ token }) {
   const [range, setRange] = useState("");
   const [result, setResult] = useState("");
   const [zipResult, setZipResult] = useState([]);
+  const [saveJobArray, setSavedJobArray] = useState([]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,6 +67,7 @@ export default function APIInput({ token }) {
 
   const handleJobSave = (data) => {
     const {
+      id,
       name,
       hiring_company,
       location,
@@ -78,18 +81,19 @@ export default function APIInput({ token }) {
 
 
     const company = hiring_company.name;
-    const { id } = token;
 
-    if (!token) {
-      toast.error("Must be logged in to save")
-    } else {
+    
+
+    const savedJobs = () => {
+
       fetch(`${backendUrl}/jobs`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          userId: id,
+          jobId: id,
+          userId: token.id,
           name,
           company,
           location,
@@ -104,10 +108,41 @@ export default function APIInput({ token }) {
         .then(res => res.json())
         .then(data => {
           toast.success("Job saved to profile")
+
+          fetch(`${backendUrl}/jobs/${token.id}`)
+            .then(res => res.json())
+            .then(response => {
+              const { data } = response;
+              console.log("data", data)
+
+              setSavedJobArray(data)
+            })
         })
-    };
+    }
+    if (token) {
+      savedJobs()
+    } else {
+      toast.error("Must be logged in to save")
+    }
   }
 
+  useEffect(() => {
+   if(token){
+    console.log(`${backendUrl}/jobs/${token.id}`)
+    fetch(`${backendUrl}/jobs/${token.id}`)
+    .then(res => res.json())
+    .then(response => {
+      const { data } = response;
+      console.log("data", data)
+
+      setSavedJobArray(data)
+    })
+   }
+  }, [token])
+
+
+  const savedJobsIds = saveJobArray.map(job => job.jobId)
+  
   return (
     <div>
 
@@ -116,7 +151,7 @@ export default function APIInput({ token }) {
         className={classes.root}
         noValidate
         autoComplete="off"
-        style={{ display: "flex", alignItems: "center", justifyContent:"center", margin:"50px" }}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "50px" }}
         onSubmit={handleSubmit}
       >
         <TextField
@@ -172,7 +207,7 @@ export default function APIInput({ token }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {zipResult.map((row) => (
+                {zipResult.filter(job => !savedJobsIds.includes(job.id)).map((row) => (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
                       <ModalCard
@@ -180,7 +215,7 @@ export default function APIInput({ token }) {
                         city={row.city}
                         name={row.name}
                       >
-                        <strong>{row.name}</strong>
+                        {row.name}
                       </ModalCard>
                     </TableCell>
                     <TableCell align="left">{row.hiring_company.name}</TableCell>
@@ -202,13 +237,13 @@ export default function APIInput({ token }) {
                     </TableCell>
                     <TableCell align="left">{row.job_age}</TableCell>
                     <TableCell align="left">
-                      <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} href={row.url} target="_blank" rel="noopener noreferrer">
+                      <Button variant="contained" color="primary" href={row.url} target="_blank" rel="noopener noreferrer">
                         Apply
                     </Button>
                     </TableCell>
                     <TableCell align="left">
                       <Button variant="contained" color="primary" onClick={() => handleJobSave(row)} >
-                      <img src={process.env.PUBLIC_URL + '/images/hihodiamond.png'} className="diamond" alt="diamond"/> 
+                        <img src={process.env.PUBLIC_URL + '/images/hihodiamond.png'} className="diamond" alt="diamond" />
                         Save
                     </Button>
                     </TableCell>

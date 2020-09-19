@@ -33,7 +33,7 @@ export default function CreateProfileCard() {
     e.preventDefault();
 
     const url = process.env.REACT_APP_API_URL;
-    console.log("url", url);
+
 
     if (
       firstName === "" ||
@@ -66,99 +66,111 @@ export default function CreateProfileCard() {
         password,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          console.log("data", data);
-          toast.success("account created successfully");
-          localStorage.setItem("token", data.token)
+      .then((res) => {
+        res.json().then(data => {
+          if (data.err === "Email already exists") {
+          toast.error("Email already exists")
+          }
+          else {
+            console.log("data", data);
+            toast.success("account created successfully");
+            localStorage.setItem("token", data.token)
 
-          const inputs = [
-            setFirstName,
-            setLastName,
-            setEmail,
-            setPhone,
-            setPassword,
-            setConfirmPassword,
-          ];
-          clearInput(inputs);
-          window.location = "/";
+            const inputs = [
+              setFirstName,
+              setLastName,
+              setEmail,
+              setPhone,
+              setPassword,
+              setConfirmPassword,
+            ];
+            clearInput(inputs);
+            window.location = "/";
+          }
+        })
+
+      }).catch(err => {
+
+        if (err) {
+          console.log("err", err)
+         
         }
-      });
-  };
+      })
+     
+    };
 
-  return (
-    <form id="profileCard" onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-      <div >
-        {/* <Card className={classes.root}> */}
-        <TextField
-          required
-          id="outlined-required"
-          label="First Name"
-          placeholder="First Name"
-          variant="outlined"
-          onChange={(e) => setFirstName(e.target.value)}
-          value={firstName}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Last Name"
-          placeholder="Last Name"
-          variant="outlined"
-          onChange={(e) => setLastName(e.target.value)}
-          value={lastName}
-        />
-      </div>
-      <div>
-        <TextField
-          required
-          id="outlined-required"
-          label="Email"
-          placeholder="hello@email.com"
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Phone Number"
-          placeholder="123-456-7890"
-          variant="outlined"
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
-        />
-      </div>
-      <div>
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Confirm Password"
-          type="password"
-          placeholder="Password"
-          autoComplete="current-password"
-          variant="outlined"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          value={confirmPassword}
-        />
+    return (
+      <form id="profileCard" onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
+        <div >
+          {/* <Card className={classes.root}> */}
+          <TextField
+            required
+            id="outlined-required"
+            label="First Name"
+            placeholder="First Name"
+            variant="outlined"
+            onChange={(e) => setFirstName(e.target.value)}
+            value={firstName}
+          />
+          <TextField
+            required
+            id="outlined-required"
+            label="Last Name"
+            placeholder="Last Name"
+            variant="outlined"
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            id="outlined-required"
+            label="Email"
+            placeholder="hello@email.com"
+            variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <TextField
+            required
+            id="outlined-required"
+            label="Phone Number"
+            placeholder="123-456-7890"
+            variant="outlined"
+            onChange={(e) => setPhone(e.target.value)}
+            value={phone}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            id="outlined-password-input"
+            label="Confirm Password"
+            type="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            variant="outlined"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+          />
 
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          placeholder="Password"
-          autoComplete="current-password"
-          variant="outlined"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-      </div>
-      <br></br>
-      <SubmitBtn  type="submit" handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
-      {/* </Card> */}
+          <TextField
+            required
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+        </div>
+        <br></br>
+        <SubmitBtn type="submit" handleSubmit={handleSubmit}>Create Profile</SubmitBtn>
+        {/* </Card> */}
 
-    </form>
-  );
-}
+      </form>
+    );
+  }

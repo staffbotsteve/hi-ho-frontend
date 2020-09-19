@@ -66,7 +66,6 @@ export default function TransitionsModal(props) {
 
         API.ItemPrices(justCity).then((res) => {
 
-
           setGasPrice(
             filterPrice(res, "Gasoline (1 liter), Transportation")/ 0.264172 
             );
