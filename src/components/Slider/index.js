@@ -34,7 +34,7 @@ export default function InputSlider(props) {
   const handleBlur = () => {
     if (value < 5) {
       setValue(5);
-    } else if (value > 500) {
+    } else if (value >= 500) {
       setValue(500);
     }
   };
@@ -64,7 +64,7 @@ export default function InputSlider(props) {
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              step: 10,
+              step: 5,
               min: 5,
               max: 500,
               type: "number",

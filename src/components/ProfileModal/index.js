@@ -6,6 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SubmitBtn from "../SubmitBtn";
 import { toast } from "react-toastify";
+import {Button}  from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -42,35 +43,25 @@ export default function TransitionsModal(props) {
 
     const url = process.env.REACT_APP_API_URL;
 
-    // if (firstName === "") {
-    //   setFirstName(props.data.firstName);
-    // }
-    // if (lastName === "") {
-    //   setLastName(props.data.lastName);
-    // }
-    // if (email === "") {
-    //   setEmail(props.data.email);
-    // }
-    // if (phone === "") {
-    //   setPhone(props.data.phone);
-    // }
+  const dataToSend = {
+    firstName : firstName || props.data.firstName,
+    lastName : lastName || props.data.lastName,
+    email : email || props.data.email,
+    phone : phone || props.data.phone
+  }
 
     fetch(`${url}/me/${props.data._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        phone,
-      }),
+      body: JSON.stringify(dataToSend),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           console.log("editData", data);
+          props.setData(dataToSend)
           toast.success("Profile successfully editted");
           handleClose();
         }
@@ -79,9 +70,9 @@ export default function TransitionsModal(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button type="button" onClick={handleOpen}>
+      <Button variant="contained" color="primary" onClick={() => handleOpen()}>
         Edit Profile
-      </button>
+      </Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -138,7 +129,7 @@ export default function TransitionsModal(props) {
               />
             </div>
             <br></br>
-            <SubmitBtn type="submit" handleSubmit={handleSubmit}>
+            <SubmitBtn disabled={!phone && !email && !firstName && !lastName} type="submit" handleSubmit={handleSubmit}>
               Edit Profile
             </SubmitBtn>
           </div>

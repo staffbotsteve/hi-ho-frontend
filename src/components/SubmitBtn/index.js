@@ -26,7 +26,7 @@ export default function SubmitBtn(props) {
 
   return (
     <div>
-      <ColorButton variant="contained" color="primary" type={props.type} className={classes.margin} onClick={props.handleSubmit}>
+      <ColorButton disabled={props.disabled} variant="contained" color="primary" type={props.type} className={classes.margin} onClick={props.handleSubmit}>
         {props.children}
       </ColorButton>
     </div>
