@@ -40,12 +40,16 @@ export default function Header({ token }) {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            href="/"
           >
             <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="logo" alt="hiho"/> 
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} >
+            <a alt="hihohome" href="/" className="whiteLink">
+
             <strong style={{marginRight: "15px"}}>Hi Ho</strong>
             <i style={{color: "lightgray"}}>It's off to work we go...</i>
+            </a>
             
           </Typography>
           <nav className="nav-links">
