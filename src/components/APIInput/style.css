@@ -2,3 +2,20 @@
     width: 20px;
     margin-right: 10px;
 }
+
+.snippetLink{
+    text-decoration: none;
+}
+
+.snippetLink:link {
+    color: black;
+  }
+  
+  /* visited link */
+.snippetLink:visited {
+    color: darkblue;
+  }
+
+.center {
+  text-align: center;
+}

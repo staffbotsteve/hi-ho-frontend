@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileModal from "../ProfileModal";
 
+import "./style.css";
 
 const useStyles = makeStyles({
   root: {
@@ -125,6 +126,7 @@ const Profile = ({ token }) => {
         <h3 style={{ textAlign: "center" }}>Phone Number: {phone}</h3>
         <ProfileModal data={data} setData={setData}/>
         <br></br>
+        <h2 className="center">Your Saved Jobs</h2>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>

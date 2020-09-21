@@ -95,8 +95,12 @@ export default function Login() {
 
   return (
     <div>
-    <form  style={{textAlign: "center", marginTop: "100px"}} onSubmit={handleSubmit}>
-      <img src={process.env.PUBLIC_URL + '/images/hihologo.png'} className="loginLogo" alt="hiho" /> 
+      
+    <form  style={{textAlign: "center", marginTop: "40px"}} onSubmit={handleSubmit}>
+    <h1 className="loginTitle">Welcome to Hi Ho</h1>
+    <h3>Your Job Search Site</h3>
+      <img src={process.env.PUBLIC_URL + '/images/hihowhite.png'} className="loginLogo" alt="hiho" /> 
+      <h3>LOGIN</h3>
       <div>
       <FormControl className={classes.margin}>
         <BootstrapInput
@@ -120,7 +124,7 @@ export default function Login() {
       </FormControl>
       </div>
       <div>
-      <SubmitBtn type="submit" handleSubmit={handleSubmit} >Login</SubmitBtn>
+      <SubmitBtn type="submit" handleSubmit={handleSubmit}>Login</SubmitBtn>
       </div>
     </form>
     </div>
