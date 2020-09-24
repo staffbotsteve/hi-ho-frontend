@@ -77,21 +77,18 @@ const Profile = ({ token }) => {
   const backendUrl = process.env.REACT_APP_API_URL;
 
   const handleJobDelete = (row) => {
-
-
-    const { id } = token;
-    const objId = row._id
+    const jobId = row.jobId
 
     if (!token) {
-      toast.error("Must be logged in to save")
+      toast.error("Must be logged in to delete")
     } else {
-      fetch(`${backendUrl}/jobs/:` + objId, {
+      fetch(`${backendUrl}/jobs/:` + jobId, {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          userId: id,
+          userId: token.id,
         }),
       })
         .then(res => res.json())
