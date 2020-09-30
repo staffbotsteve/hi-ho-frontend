@@ -328,26 +328,26 @@ export default function APIInput({ token }) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                <TableCell align="center">
                     <strong>Job Title</strong>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <strong>Gasoline</strong>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <strong>Beer</strong>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <strong>Meal</strong>
                   </TableCell>
-                  <TableCell>
-                    <strong>Apartment(1 bedroom)</strong>
+                  <TableCell align="center">
+                    <strong>1BR Apt</strong>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <strong>Utilities</strong>
                   </TableCell>
-                  <TableCell>
-                    <strong>Payscale %</strong>
+                  <TableCell align="center">
+                    <strong>Pay %</strong>
                   </TableCell>
                   <TableCell align="left">
                     <strong>Company</strong>
@@ -355,11 +355,11 @@ export default function APIInput({ token }) {
                   <TableCell align="left">
                     <strong>Location</strong>
                   </TableCell>
-                  <TableCell>
-                    <strong>Cost Of Living 100.00</strong>
+                  <TableCell align="center">
+                    <strong>Cost Of Living</strong>
                   </TableCell>
-                  <TableCell align="left">
-                    <strong>Annual Max Salary</strong>
+                  <TableCell align="center">
+                    <strong>Salary</strong>
                   </TableCell>
                   <TableCell align="left">
                     <strong>Summary</strong>
