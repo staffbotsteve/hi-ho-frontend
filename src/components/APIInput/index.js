@@ -19,6 +19,8 @@ import Slider from "../Slider";
 import Wrapper from "../Wrapper";
 
 import { toast } from "react-toastify";
+
+import { FullPercentiles } from "../../utils/constant";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
@@ -33,7 +35,47 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 650,
     },
   },
+  cellHidden: {
+    display: "hidden",
+  },
 }));
+
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+});
+
+const toTwoDigit = (num) => {
+  return parseInt(num).toFixed(2);
+};
+
+const binarySearch = (target) => {
+  const array = Object.values(FullPercentiles);
+  const underTenPercentage = "under 10";
+  const upperNinetyPercentage = "upper 90";
+  let startIndex = 0;
+  let endIndex = array.length - 1;
+
+  if (target < array[startIndex]) {
+    return underTenPercentage;
+  }
+  if (target > array[endIndex]) {
+    return upperNinetyPercentage;
+  }
+  while (startIndex <= endIndex) {
+    let middleIndex = Math.floor((startIndex + endIndex) / 2);
+    if (target >= array[middleIndex] && target < array[middleIndex + 1]) {
+      return middleIndex + 10;
+    }
+    if (target > array[middleIndex]) {
+      startIndex = middleIndex + 1;
+    }
+    if (target < array[middleIndex]) {
+      endIndex = middleIndex - 1;
+    }
+  }
+};
 
 export default function APIInput({ token }) {
   const classes = useStyles();
@@ -45,21 +87,111 @@ export default function APIInput({ token }) {
   const [zipResult, setZipResult] = useState([]);
   const [saveJobArray, setSavedJobArray] = useState([]);
 
-  const handleSubmit = (e) => {
+  const findPrice = (res, string) => {
+    if (!res) return 0;
+    const price = res.find((obj) => obj.item_name === string);
+    return price;
+  };
+
+  const filterPrice = (res, string) => {
+    if (findPrice(res.prices, string)) {
+      return findPrice(res.prices, string).average_price;
+    } else {
+      return;
+    }
+  };
+
+  const itemAPI = (item) => {
+    const cityState = item.city + ", " + item.state;
+    const justCity = item.city;
+    return new Promise((resolve, reject) => {
+      API.CostOfLiving(cityState)
+        .then((res) => {
+          const costLiving = JSON.stringify(res);
+          const newItem = { ...item, costLiving };
+          return newItem;
+        })
+        .then((item) => {
+          API.ItemPrices(cityState).then((res) => {
+            if (res.error) {
+              API.ItemPrices(justCity).then((res) => {
+                const gasPrice =
+                  filterPrice(res, "Gasoline (1 liter), Transportation") /
+                  0.264172;
+                const beerPrice = filterPrice(
+                  res,
+                  "Domestic Beer (0.5 liter bottle), Markets"
+                );
+                const mealPrice = filterPrice(
+                  res,
+                  "Meal, Inexpensive Restaurant, Restaurants"
+                );
+                const rentPrice = filterPrice(
+                  res,
+                  "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+                );
+                const basicPrice = filterPrice(
+                  res,
+                  "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+                );
+                const newItem = {
+                  ...item,
+                  gasPrice,
+                  beerPrice,
+                  mealPrice,
+                  rentPrice,
+                  basicPrice,
+                };
+                resolve(newItem);
+              });
+            } else if (res) {
+              const gasPrice =
+                filterPrice(res, "Gasoline (1 liter), Transportation") /
+                0.264172;
+              const beerPrice = filterPrice(
+                res,
+                "Domestic Beer (0.5 liter bottle), Markets"
+              );
+              const mealPrice = filterPrice(
+                res,
+                "Meal, Inexpensive Restaurant, Restaurants"
+              );
+              const rentPrice = filterPrice(
+                res,
+                "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+              );
+              const basicPrice = filterPrice(
+                res,
+                "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+              );
+              const newItem = {
+                ...item,
+                gasPrice,
+                beerPrice,
+                mealPrice,
+                rentPrice,
+                basicPrice,
+              };
+              resolve(newItem);
+            }
+          });
+        })
+        .catch((err) => reject(err));
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (job === "" && location === "" && range === "") {
       toast.success("Displaying most recently posted jobs in the USA");
     }
 
-    API.zipRecruiter(job, location, range, result).then((res) => {
-      setZipResult(res.jobs);
-    });
+    const res = await API.zipRecruiter(job, location, range, result);
+    const jobsPromises = res.jobs.map((job) => itemAPI(job));
+    const items = await Promise.all(jobsPromises);
+    setZipResult(items);
   };
-
-  useEffect(() => {
-    console.log("got here", token);
-  }, [token]);
 
   const backendUrl = process.env.REACT_APP_API_URL;
 
@@ -107,8 +239,6 @@ export default function APIInput({ token }) {
             .then((res) => res.json())
             .then((response) => {
               const { data } = response;
-              console.log("data", data);
-
               setSavedJobArray(data);
             });
         });
@@ -127,8 +257,6 @@ export default function APIInput({ token }) {
         .then((res) => res.json())
         .then((response) => {
           const { data } = response;
-          console.log("data", data);
-
           setSavedJobArray(data);
         });
     }
@@ -190,7 +318,10 @@ export default function APIInput({ token }) {
       </form>
 
       <div>
-        <h4 className="center" style={{color: "darkslategray"}}>Click on a Job Title or Location to learn more about the cost of living</h4>
+        <h4 className="center" style={{ color: "darkslategray" }}>
+          Click on a Job Title or Location to learn more about the cost of
+          living
+        </h4>
 
         <Wrapper>
           <TableContainer component={Paper}>
@@ -200,11 +331,35 @@ export default function APIInput({ token }) {
                   <TableCell>
                     <strong>Job Title</strong>
                   </TableCell>
+                  <TableCell>
+                    <strong>Gasoline</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Beer</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Meal</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Apartment(1 bedroom)</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Utilities</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Payscale %</strong>
+                  </TableCell>
                   <TableCell align="left">
                     <strong>Company</strong>
                   </TableCell>
                   <TableCell align="left">
                     <strong>Location</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Cost Of Living 100.00</strong>
+                  </TableCell>
+                  <TableCell align="left">
+                    <strong>Annual Max Salary</strong>
                   </TableCell>
                   <TableCell align="left">
                     <strong>Summary</strong>
@@ -233,6 +388,34 @@ export default function APIInput({ token }) {
                         </ModalCard>
                       </TableCell>
                       <TableCell align="left">
+                        {isNaN(row.gasPrice)
+                          ? "Cost Unavailable"
+                          : formatter.format(row.gasPrice)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {isNaN(row.beerPrice)
+                          ? "Cost Unavailable"
+                          : formatter.format(row.beerPrice)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {isNaN(row.mealPrice)
+                          ? "Cost Unavailable"
+                          : formatter.format(row.mealPrice)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {isNaN(row.rentPrice)
+                          ? "Cost Unavailable"
+                          : formatter.format(row.rentPrice)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {isNaN(row.basicPrice)
+                          ? "Cost Unavailable"
+                          : formatter.format(row.basicPrice)}
+                      </TableCell>
+                      <TableCell>
+                        {binarySearch(row.salary_max_annual) + "%"}
+                      </TableCell>
+                      <TableCell align="left">
                         {row.hiring_company.name}
                       </TableCell>
                       <TableCell align="left">
@@ -243,6 +426,12 @@ export default function APIInput({ token }) {
                         >
                           {row.location}
                         </ModalCard>
+                      </TableCell>
+                      <TableCell align="left">
+                        {toTwoDigit(row.costLiving)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.salary_max_annual}
                       </TableCell>
                       <TableCell align="left">
                         <a
