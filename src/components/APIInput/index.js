@@ -260,7 +260,7 @@ export default function APIInput({ token }) {
           setSavedJobArray(data);
         });
     }
-  }, [token]);
+  }, [token, backendUrl]);
 
   const savedJobsIds = saveJobArray.map((job) => job.jobId);
 
@@ -273,6 +273,7 @@ export default function APIInput({ token }) {
         autoComplete="off"
         style={{
           display: "flex",
+          flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "center",
           margin: "50px",
@@ -281,7 +282,6 @@ export default function APIInput({ token }) {
       >
         <TextField
           required
-          id="outlined-required"
           label="Job Keyword"
           placeholder="ex. Engineer"
           variant="outlined"
@@ -291,7 +291,6 @@ export default function APIInput({ token }) {
 
         <TextField
           required
-          id="outlined-required"
           label="Location"
           placeholder="ex. Berkeley"
           variant="outlined"
@@ -301,14 +300,12 @@ export default function APIInput({ token }) {
 
         <TextField
           required
-          id="outlined-required"
           label="Mile Radius"
           placeholder="ex. 25"
           variant="outlined"
           onChange={(e) => setRange(e.target.value)}
           value={range}
         />
-        <Help help="EX. An input of 25 will search for jobs within a 25 mile radius of your desired location." />
         <Slider onChange={(e) => setResult(e)} />
         <br></br>
 
@@ -328,7 +325,7 @@ export default function APIInput({ token }) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                <TableCell align="center">
+                  <TableCell align="center">
                     <strong>Job Title</strong>
                   </TableCell>
                   <TableCell align="center">

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
 
@@ -7,7 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputBase from "@material-ui/core/InputBase";
 import SubmitBtn from "../SubmitBtn";
 
-import "./style.css"
+import "./style.css";
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -81,12 +81,12 @@ export default function Login() {
         if (data.success) {
           console.log("data", data);
           toast.success("logged in successfully");
-          localStorage.setItem("token", data.token)
+          localStorage.setItem("token", data.token);
 
           const inputs = [setEmail, setPassword];
           clearInput(inputs);
 
-          window.location = "/"
+          window.location = "/";
         } else {
           toast.error("Invalid Login");
         }
@@ -95,38 +95,43 @@ export default function Login() {
 
   return (
     <div>
-      
-    <form  style={{textAlign: "center", marginTop: "40px"}} onSubmit={handleSubmit}>
-    <h1 className="loginTitle">Welcome to Hi Ho</h1>
-    <h3>Your Job Search Site</h3>
-      <img src={process.env.PUBLIC_URL + '/images/hihowhite.png'} className="loginLogo" alt="hiho" /> 
-      <h3>LOGIN</h3>
-      <div>
-      <FormControl className={classes.margin}>
-        <BootstrapInput
-          id="demo-customized-textbox"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+      <form
+        style={{ textAlign: "center", marginTop: "40px" }}
+        onSubmit={handleSubmit}
+      >
+        <h1 className="loginTitle">Welcome to Hi Ho</h1>
+        <h3>Your Job Search Site</h3>
+        <img
+          src={process.env.PUBLIC_URL + "/images/hihowhite.png"}
+          className="loginLogo"
+          alt="hiho"
         />
-      </FormControl>
-      </div>
-      <div>
-      <FormControl className={classes.margin}>
-        <BootstrapInput
-          id="demo-customized-textbox"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        
-      </FormControl>
-      </div>
-      <div>
-      <SubmitBtn type="submit" handleSubmit={handleSubmit}>Login</SubmitBtn>
-      </div>
-    </form>
+        <h3>LOGIN</h3>
+        <div>
+          <FormControl className={classes.margin}>
+            <BootstrapInput
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl className={classes.margin}>
+            <BootstrapInput
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <SubmitBtn type="submit" handleSubmit={handleSubmit}>
+            Login
+          </SubmitBtn>
+        </div>
+      </form>
     </div>
   );
 }
