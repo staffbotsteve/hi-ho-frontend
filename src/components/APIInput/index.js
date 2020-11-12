@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import API from "../../utils/API";
 import SubmitBtn from "../SubmitBtn";
-import Help from "../Help";
 import {
   Table,
   TableBody,
