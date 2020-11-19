@@ -103,7 +103,7 @@ export default function Home(props) {
   const [job, setJob] = useState("");
   const [location, setLocation] = useState("");
   const [range, setRange] = useState("");
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState("25");
   const [zipResult, setZipResult] = useState([]);
   const [saveJobArray, setSavedJobArray] = useState([]);
 
