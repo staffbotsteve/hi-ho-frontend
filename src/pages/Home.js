@@ -76,6 +76,26 @@ const binarySearch = (target) => {
   }
 };
 
+// (function () {
+//   var cors_api_host = "cors-anywhere.herokuapp.com";
+//   var cors_api_url = "https://" + cors_api_host + "/";
+//   var slice = [].slice;
+//   var origin = window.location.protocol + "//" + window.location.host;
+//   var open = XMLHttpRequest.prototype.open;
+//   XMLHttpRequest.prototype.open = function () {
+//     var args = slice.call(arguments);
+//     var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
+//     if (
+//       targetOrigin &&
+//       targetOrigin[0].toLowerCase() !== origin &&
+//       targetOrigin[1] !== cors_api_host
+//     ) {
+//       args[1] = cors_api_url + args[1];
+//     }
+//     return open.apply(this, args);
+//   };
+// })();
+
 export default function Home(props) {
   const token = props.token;
   const classes = useStyles();
@@ -187,7 +207,7 @@ export default function Home(props) {
       toast.success("Displaying most recently posted jobs in the USA");
     }
 
-    const res = await API.zipRecruiter(job, location, range, result);
+    const res = await API.usaJobs(job, location, range, result);
     const jobsPromises = res.jobs.map((job) => itemAPI(job));
     const items = await Promise.all(jobsPromises);
     setZipResult(items);
@@ -265,7 +285,7 @@ export default function Home(props) {
   const savedJobsIds = saveJobArray.map((job) => job.jobId);
 
   return (
-    <div {...props} token={props.token}>
+    <div token={props.token}>
       <h1 className="center">Search for a Job</h1>
       <form
         className={classes.root}
