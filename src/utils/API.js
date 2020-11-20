@@ -14,7 +14,8 @@ export default {
   //     return res.data
   //   })
   // },
-  usaJobs: function (job, location, range, numResult) {
+  usaJobs: function async(job, location, range, numResult) {
+    console.log(".env", process.env.USAJOBS_AUTH);
     return axios
       .get(
         "https://data.usajobs.gov/api/search?Keyword=" +
@@ -33,8 +34,8 @@ export default {
         }
       )
       .then((res) => {
-        console.log(res);
-        return res.data;
+        console.log(res.data.SearchResult.SearchResultItems);
+        return res.data.SearchResult.SearchResultItems;
       });
   },
   ItemPrices: function (location) {

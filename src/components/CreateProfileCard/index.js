@@ -33,6 +33,7 @@ export default function CreateProfileCard() {
     e.preventDefault();
 
     const url = process.env.REACT_APP_API_URL;
+    console.log(process.env.USAJOBS_REACT_APP_API_URL);
 
     if (
       firstName === "" ||

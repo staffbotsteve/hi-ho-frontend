@@ -121,9 +121,110 @@ export default function Home(props) {
     }
   };
 
+  // Old itemAPI built around result from zipRecruiter API
+  // const itemAPI = (item) => {
+  //   const cityState = item.city + ", " + item.state;
+  //   const justCity = item.city;
+  //   return new Promise((resolve, reject) => {
+  //     API.CostOfLiving(cityState)
+  //       .then((res) => {
+  //         const costLiving = JSON.stringify(res);
+  //         const newItem = { ...item, costLiving };
+  //         return newItem;
+  //       })
+  //       .then((item) => {
+  //         API.ItemPrices(cityState).then((res) => {
+  //           if (res.error) {
+  //             API.ItemPrices(justCity).then((res) => {
+  //               const gasPrice =
+  //                 filterPrice(res, "Gasoline (1 liter), Transportation") /
+  //                 0.264172;
+  //               const beerPrice = filterPrice(
+  //                 res,
+  //                 "Domestic Beer (0.5 liter bottle), Markets"
+  //               );
+  //               const mealPrice = filterPrice(
+  //                 res,
+  //                 "Meal, Inexpensive Restaurant, Restaurants"
+  //               );
+  //               const rentPrice = filterPrice(
+  //                 res,
+  //                 "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+  //               );
+  //               const basicPrice = filterPrice(
+  //                 res,
+  //                 "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+  //               );
+  //               const newItem = {
+  //                 ...item,
+  //                 gasPrice,
+  //                 beerPrice,
+  //                 mealPrice,
+  //                 rentPrice,
+  //                 basicPrice,
+  //               };
+  //               resolve(newItem);
+  //             });
+  //           } else if (res) {
+  //             const gasPrice =
+  //               filterPrice(res, "Gasoline (1 liter), Transportation") /
+  //               0.264172;
+  //             const beerPrice = filterPrice(
+  //               res,
+  //               "Domestic Beer (0.5 liter bottle), Markets"
+  //             );
+  //             const mealPrice = filterPrice(
+  //               res,
+  //               "Meal, Inexpensive Restaurant, Restaurants"
+  //             );
+  //             const rentPrice = filterPrice(
+  //               res,
+  //               "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+  //             );
+  //             const basicPrice = filterPrice(
+  //               res,
+  //               "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+  //             );
+  //             const newItem = {
+  //               ...item,
+  //               gasPrice,
+  //               beerPrice,
+  //               mealPrice,
+  //               rentPrice,
+  //               basicPrice,
+  //             };
+  //             resolve(newItem);
+  //           }
+  //         });
+  //       })
+  //       .catch((err) => reject(err));
+  //   });
+  // };
+
+  // Old handleSubmit utilizing zipRecruiter API
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (job === "" && location === "" && range === "") {
+  //     toast.success("Displaying most recently posted jobs in the USA");
+  //   }
+
+  //   const res = await API.ziprecruiter(job, location, range, result);
+  //   const jobsPromises = res.jobs.map((job) => itemAPI(job));
+  //   const items = await Promise.all(jobsPromises);
+  //   setZipResult(items);
+  // };
+
   const itemAPI = (item) => {
-    const cityState = item.city + ", " + item.state;
-    const justCity = item.city;
+    let cityState;
+    if (item.MatchedObjectDescriptor.PositionLocation.length <= 1) {
+      cityState = item.MatchedObjectDescriptor.PositionLocation[0].LocationName;
+      //console.log(cityState);
+    } else {
+      //console.log(location);
+      cityState = location;
+    }
+    let justCity; //= item.PositionLocation[0].LocationName.split(",")[0];
     return new Promise((resolve, reject) => {
       API.CostOfLiving(cityState)
         .then((res) => {
@@ -161,6 +262,7 @@ export default function Home(props) {
                   mealPrice,
                   rentPrice,
                   basicPrice,
+                  cityState,
                 };
                 resolve(newItem);
               });
@@ -191,6 +293,7 @@ export default function Home(props) {
                 mealPrice,
                 rentPrice,
                 basicPrice,
+                cityState,
               };
               resolve(newItem);
             }
@@ -208,9 +311,10 @@ export default function Home(props) {
     }
 
     const res = await API.usaJobs(job, location, range, result);
-    const jobsPromises = res.jobs.map((job) => itemAPI(job));
+    const jobsPromises = res.map((job) => itemAPI(job));
     const items = await Promise.all(jobsPromises);
     setZipResult(items);
+    console.log("zipResult", zipResult);
   };
 
   const backendUrl = process.env.REACT_APP_API_URL;
@@ -397,11 +501,11 @@ export default function Home(props) {
                     <TableRow key={row.id}>
                       <TableCell component="th" scope="row">
                         <ModalCard
-                          location={row.city + ", " + row.state}
-                          city={row.city}
-                          name={row.name}
+                          location={row.cityState}
+                          city={row.cityState.split(", ")[0]}
+                          name={row.MatchedObjectDescriptor.OrganizationName}
                         >
-                          {row.name}
+                          {row.MatchedObjectDescriptor.OrganizationName}
                         </ModalCard>
                       </TableCell>
                       <TableCell align="left">
@@ -430,44 +534,56 @@ export default function Home(props) {
                           : formatter.format(row.basicPrice)}
                       </TableCell>
                       <TableCell>
-                        {binarySearch(row.salary_max_annual) + "%"}
+                        {binarySearch(
+                          row.MatchedObjectDescriptor.PositionRemuneration[0]
+                            .MaximumRange
+                        ) + "%"}
                       </TableCell>
                       <TableCell align="left">
-                        {row.hiring_company.name}
+                        {row.MatchedObjectDescriptor.OrganizationName}
                       </TableCell>
                       <TableCell align="left">
                         <ModalCard
-                          location={row.city + ", " + row.state}
-                          city={row.city}
-                          name={row.name}
+                          location={row.cityState}
+                          city={row.cityState.split(", ")[0]}
+                          name={row.MatchedObjectDescriptor.OrganizationName}
                         >
-                          {row.location}
+                          {row.cityState}
                         </ModalCard>
                       </TableCell>
                       <TableCell align="left">
                         {toTwoDigit(row.costLiving)}
                       </TableCell>
                       <TableCell align="left">
-                        {row.salary_max_annual}
+                        {
+                          row.MatchedObjectDescriptor.PositionRemuneration[0]
+                            .MaximumRange
+                        }
                       </TableCell>
                       <TableCell align="left">
                         <a
-                          href={row.url}
+                          href={row.MatchedObjectDescriptor.PositionURI}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="snippetLink"
                         >
                           <p
-                            dangerouslySetInnerHTML={{ __html: row.snippet }}
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                row.MatchedObjectDescriptor.UserArea.Details
+                                  .JobSummary,
+                            }}
                           />
                         </a>
                       </TableCell>
-                      <TableCell align="left">{row.job_age}</TableCell>
+                      <TableCell align="left">
+                        {row.MatchedObjectDescriptor.PositionStartDate}
+                      </TableCell>
                       <TableCell align="left">
                         <Button
                           variant="contained"
                           color="primary"
-                          href={row.url}
+                          href={row.MatchedObjectDescriptor.ApplyURI}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
