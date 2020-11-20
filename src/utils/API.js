@@ -15,7 +15,9 @@ export default {
   //   })
   // },
   usaJobs: function async(job, location, range, numResult) {
-    console.log(".env", process.env.USAJOBS_AUTH);
+    const apiKey = process.env.REACT_APP_API_KEY;
+    console.log("apiKey", apiKey);
+
     return axios
       .get(
         "https://data.usajobs.gov/api/search?Keyword=" +
@@ -29,7 +31,7 @@ export default {
         {
           headers: {
             "User-Agent": "webdevwes89@gmail.com",
-            "Authorization-Key": "liI1ityY8l44e6YmBvTVVOtBROL9GpeHQ5HW0OWMeNY=",
+            "Authorization-Key": apiKey,
           },
         }
       )
