@@ -33,6 +33,7 @@ export default function CreateProfileCard() {
     e.preventDefault();
 
     const url = process.env.REACT_APP_API_URL;
+    console.log(process.env.USAJOBS_REACT_APP_API_URL);
 
     if (
       firstName === "" ||
@@ -102,13 +103,16 @@ export default function CreateProfileCard() {
       autoComplete="off"
     >
       <h1 className="loginTitle">Welcome to Hi Ho</h1>
-      <img src={process.env.PUBLIC_URL + '/images/hihowhite.png'} className="loginLogo" alt="hiho" /> 
+      <img
+        src={process.env.PUBLIC_URL + "/images/hihowhite.png"}
+        className="loginLogo"
+        alt="hiho"
+      />
       <h3>REGISTER</h3>
       <div>
         {/* <Card className={classes.root}> */}
         <TextField
           required
-          id="outlined-required"
           label="First Name"
           placeholder="First Name"
           variant="outlined"
@@ -117,7 +121,6 @@ export default function CreateProfileCard() {
         />
         <TextField
           required
-          id="outlined-required"
           label="Last Name"
           placeholder="Last Name"
           variant="outlined"
@@ -128,7 +131,6 @@ export default function CreateProfileCard() {
       <div>
         <TextField
           required
-          id="outlined-required"
           label="Email"
           placeholder="hello@email.com"
           variant="outlined"
@@ -137,7 +139,6 @@ export default function CreateProfileCard() {
         />
         <TextField
           required
-          id="outlined-required"
           label="Phone Number"
           placeholder="123-456-7890"
           variant="outlined"
@@ -146,11 +147,8 @@ export default function CreateProfileCard() {
         />
       </div>
       <div>
-        
-
         <TextField
           required
-          id="outlined-password-input"
           label="Password"
           type="password"
           placeholder="Password"
@@ -160,9 +158,8 @@ export default function CreateProfileCard() {
           value={password}
         />
 
-<TextField
+        <TextField
           required
-          id="outlined-password-input"
           label="Confirm Password"
           type="password"
           placeholder="Password"

@@ -1,11 +1,10 @@
-#profileCard{
-    margin-left: 100px;
-    text-align: center;
-    margin-top: 30px
+#profileCard {
+  text-align: center;
+  margin-top: 30px;
 }
-.loginTitle{
-    text-align: center;
+.loginTitle {
+  text-align: center;
 }
-.loginLogo{
-    margin-top: 30px;
+.loginLogo {
+  margin-top: 30px;
 }

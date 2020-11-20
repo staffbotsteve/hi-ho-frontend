@@ -1,10 +1,10 @@
-import React from 'react'
-import CreateProfileCard from "../components/CreateProfileCard"
+import React from "react";
+import CreateProfileCard from "../components/CreateProfileCard";
 
 export default function CreateProfile() {
-    return (
-        <div>
-            <CreateProfileCard />
-        </div>
-    )
+  return (
+    <div>
+      <CreateProfileCard />
+    </div>
+  );
 }
