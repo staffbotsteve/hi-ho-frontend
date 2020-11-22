@@ -34,7 +34,6 @@ export default {
         }
       )
       .then((res) => {
-        console.log(res.data.SearchResult.SearchResultItems);
         return res.data.SearchResult.SearchResultItems;
       });
   },

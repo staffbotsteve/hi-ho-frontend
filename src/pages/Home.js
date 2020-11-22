@@ -8,11 +8,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Button,
 } from "@material-ui/core";
+import TableHeader from "../components/TableHeader";
 import ModalCard from "../components/Modal";
 import Slider from "../components/Slider";
 import Wrapper from "../components/Wrapper";
@@ -44,10 +44,6 @@ const formatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
   minimumFractionDigits: 2,
 });
-
-const toTwoDigit = (num) => {
-  return parseInt(num).toFixed(2);
-};
 
 const binarySearch = (target) => {
   const array = Object.values(FullPercentiles);
@@ -96,13 +92,11 @@ export default function Home(props) {
 
     const res = await API.usaJobs(job, location, range, result);
     setZipResult(res);
-    console.log("zipResult", zipResult);
   };
 
   const backendUrl = process.env.REACT_APP_API_URL;
 
   const handleJobSave = ({ MatchedObjectDescriptor }) => {
-    console.log(MatchedObjectDescriptor);
     const {
       PositionID,
       PositionTitle,
@@ -149,7 +143,6 @@ export default function Home(props) {
 
   useEffect(() => {
     if (token) {
-      //console.log(`${backendUrl}/jobs/${token.id}`);
       fetch(`${backendUrl}/jobs/${token.id}`)
         .then((res) => res.json())
         .then((response) => {
@@ -219,53 +212,7 @@ export default function Home(props) {
         <Wrapper>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
-              <TableHead className="tableHead">
-                <TableRow>
-                  <TableCell align="center">
-                    <strong>Job Title</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Gasoline</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Beer</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Meal</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>1BR Apt</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Utilities</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Pay %</strong>
-                  </TableCell>
-                  <TableCell align="left">
-                    <strong>Company</strong>
-                  </TableCell>
-                  <TableCell align="left">
-                    <strong>Location</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Cost Of Living</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Salary</strong>
-                  </TableCell>
-                  <TableCell align="left">
-                    <strong>Summary</strong>
-                  </TableCell>
-                  <TableCell align="left">
-                    <strong>Days Posted</strong>
-                  </TableCell>
-                  <TableCell align="left">
-                    <strong>Application</strong>
-                  </TableCell>
-                  <TableCell align="left"></TableCell>
-                </TableRow>
-              </TableHead>
+              <TableHeader>Save</TableHeader>
               <TableBody>
                 {zipResult
                   .filter((job) => !savedJobsIds.includes(job.id))
@@ -287,31 +234,7 @@ export default function Home(props) {
                           {row.MatchedObjectDescriptor.PositionTitle}
                         </ModalCard>
                       </TableCell>
-                      <TableCell align="left">
-                        {isNaN(row.gasPrice)
-                          ? "Cost Unavailable"
-                          : formatter.format(row.gasPrice)}
-                      </TableCell>
-                      <TableCell align="left">
-                        {isNaN(row.beerPrice)
-                          ? "Cost Unavailable"
-                          : formatter.format(row.beerPrice)}
-                      </TableCell>
-                      <TableCell align="left">
-                        {isNaN(row.mealPrice)
-                          ? "Cost Unavailable"
-                          : formatter.format(row.mealPrice)}
-                      </TableCell>
-                      <TableCell align="left">
-                        {isNaN(row.rentPrice)
-                          ? "Cost Unavailable"
-                          : formatter.format(row.rentPrice)}
-                      </TableCell>
-                      <TableCell align="left">
-                        {isNaN(row.basicPrice)
-                          ? "Cost Unavailable"
-                          : formatter.format(row.basicPrice)}
-                      </TableCell>
+
                       <TableCell>
                         {binarySearch(
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
@@ -339,9 +262,7 @@ export default function Home(props) {
                             .CityName
                         }
                       </TableCell>
-                      <TableCell align="left">
-                        {toTwoDigit(row.costLiving)}
-                      </TableCell>
+
                       <TableCell align="left">
                         {formatter.format(
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
@@ -362,9 +283,10 @@ export default function Home(props) {
                         >
                           <p
                             dangerouslySetInnerHTML={{
-                              __html:
-                                row.MatchedObjectDescriptor.UserArea.Details
-                                  .JobSummary,
+                              __html: row.MatchedObjectDescriptor.UserArea.Details.JobSummary.slice(
+                                0,
+                                99
+                              ),
                             }}
                           />
                         </a>
