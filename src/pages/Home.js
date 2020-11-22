@@ -101,21 +101,15 @@ export default function Home(props) {
 
   const backendUrl = process.env.REACT_APP_API_URL;
 
-  const handleJobSave = (data) => {
+  const handleJobSave = ({ MatchedObjectDescriptor }) => {
+    console.log(MatchedObjectDescriptor);
     const {
-      id,
-      name,
-      hiring_company,
-      location,
-      snippet,
-      job_age,
-      url,
-      city,
-      state,
-      posted_time,
-    } = data;
-
-    const company = hiring_company.name;
+      PositionID,
+      PositionTitle,
+      OrganizationName,
+      PositionStartDate,
+      PositionURI,
+    } = MatchedObjectDescriptor;
 
     const savedJobs = () => {
       fetch(`${backendUrl}/jobs`, {
@@ -124,17 +118,14 @@ export default function Home(props) {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          jobId: id,
+          jobId: PositionID,
           userId: token.id,
-          name,
-          company,
-          location,
-          snippet,
-          job_age,
-          url,
-          city,
-          state,
-          posted_time,
+          name: PositionTitle,
+          company: OrganizationName,
+          location: MatchedObjectDescriptor.PositionLocation[0].CityName,
+          snippet: MatchedObjectDescriptor.UserArea.Details.JobSummary,
+          url: PositionURI,
+          posted_time: PositionStartDate,
         }),
       })
         .then((res) => res.json())
@@ -293,7 +284,7 @@ export default function Home(props) {
                           }
                           name={row.MatchedObjectDescriptor.OrganizationName}
                         >
-                          {row.MatchedObjectDescriptor.OrganizationName}
+                          {row.MatchedObjectDescriptor.PositionTitle}
                         </ModalCard>
                       </TableCell>
                       <TableCell align="left">
@@ -352,10 +343,15 @@ export default function Home(props) {
                         {toTwoDigit(row.costLiving)}
                       </TableCell>
                       <TableCell align="left">
-                        {
+                        {formatter.format(
+                          row.MatchedObjectDescriptor.PositionRemuneration[0]
+                            .MinimumRange
+                        )}
+                        --
+                        {formatter.format(
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
                             .MaximumRange
-                        }
+                        )}
                       </TableCell>
                       <TableCell align="left">
                         <a
