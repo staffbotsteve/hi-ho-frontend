@@ -91,6 +91,7 @@ export default function Home(props) {
     }
 
     const res = await API.usaJobs(job, location, range, result);
+    console.log("zipResult", res);
     setZipResult(res);
   };
 
@@ -217,7 +218,13 @@ export default function Home(props) {
                 {zipResult
                   .filter((job) => !savedJobsIds.includes(job.id))
                   .map((row) => (
-                    <TableRow key={row.MatchedObjectDescriptor.PositionID}>
+                    <TableRow
+                      className="table-row-flex"
+                      key={row.MatchedObjectDescriptor.PositionID}
+                    >
+                      <TableCell className="mobile-description">
+                        Job Title
+                      </TableCell>
                       <TableCell component="th" scope="row">
                         <ModalCard
                           location={
@@ -234,35 +241,47 @@ export default function Home(props) {
                           {row.MatchedObjectDescriptor.PositionTitle}
                         </ModalCard>
                       </TableCell>
-
+                      <TableCell className="mobile-description">
+                        Pay %
+                      </TableCell>
                       <TableCell>
                         {binarySearch(
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
                             .MaximumRange
                         ) + "%"}
                       </TableCell>
+                      <TableCell className="mobile-description">
+                        Company Name
+                      </TableCell>
                       <TableCell align="left">
                         {row.MatchedObjectDescriptor.OrganizationName}
                       </TableCell>
+                      <TableCell className="mobile-description">
+                        Location
+                      </TableCell>
                       <TableCell align="left">
-                        <ModalCard
-                          location={
-                            row.MatchedObjectDescriptor.PositionLocation[0]
-                              .CityName
-                          }
-                          city={
-                            row.MatchedObjectDescriptor.PositionLocation[0].CityName.split(
-                              ","
-                            )[0]
-                          }
-                          name={row.MatchedObjectDescriptor.OrganizationName}
-                        ></ModalCard>
-                        {
+                        {row.MatchedObjectDescriptor.PositionLocation.length >
+                        1 ? (
+                          <select name="location" className="SelectOption">
+                            {row.MatchedObjectDescriptor.PositionLocation.map(
+                              (item) => (
+                                <option
+                                  key={Math.random()}
+                                  value={item.CityName}
+                                >
+                                  {item.CityName.slice(0, 25)}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        ) : (
                           row.MatchedObjectDescriptor.PositionLocation[0]
                             .CityName
-                        }
+                        )}
                       </TableCell>
-
+                      <TableCell className="mobile-description">
+                        Salary
+                      </TableCell>
                       <TableCell align="left">
                         {formatter.format(
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
@@ -273,6 +292,9 @@ export default function Home(props) {
                           row.MatchedObjectDescriptor.PositionRemuneration[0]
                             .MaximumRange
                         )}
+                      </TableCell>
+                      <TableCell className="mobile-description">
+                        Summary
                       </TableCell>
                       <TableCell align="left">
                         <a
@@ -290,6 +312,9 @@ export default function Home(props) {
                             }}
                           />
                         </a>
+                      </TableCell>
+                      <TableCell className="mobile-description">
+                        Posted Date
                       </TableCell>
                       <TableCell align="left">
                         {row.MatchedObjectDescriptor.PositionStartDate}

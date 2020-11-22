@@ -9,14 +9,12 @@ export default {
   //       location +
   //       "&radius_miles=" +
   //       range +
-  //       "&days_ago=&jobs_per_page=" + numResult + "&page=1&api_key=un8v7z7yk9yyiuquy49vj9tnduejbwc8"
+  //       "&days_ago=&jobs_per_page=" + numResult + "&page=1&api_key=" + process.env.REACT_APP_ZIPRECRUITER_ KEY
   //   ).then((res) => {
   //     return res.data
   //   })
   // },
   usaJobs: function (job, location, range, numResult) {
-    const apiKey = process.env.REACT_APP_API_KEY;
-
     return axios
       .get(
         "https://data.usajobs.gov/api/search?Keyword=" +
@@ -29,7 +27,7 @@ export default {
           numResult,
         {
           headers: {
-            "Authorization-Key": apiKey,
+            "Authorization-Key": process.env.REACT_APP_API_KEY,
           },
         }
       )
@@ -40,7 +38,9 @@ export default {
   ItemPrices: function (location) {
     return axios
       .get(
-        "https://www.numbeo.com/api/city_prices?api_key=g1qic1xvvmr7h7&query=" +
+        "https://www.numbeo.com/api/city_prices?api_key=" +
+          process.env.REACT_APP_NUMBEO_KEY +
+          "&query=" +
           location
       )
       .then((res) => {
@@ -50,7 +50,9 @@ export default {
   CostOfLiving: function (location) {
     return axios
       .get(
-        "https://www.numbeo.com/api/indices?api_key=g1qic1xvvmr7h7&query=" +
+        "https://www.numbeo.com/api/indices?api_key=" +
+          process.env.REACT_APP_NUMBEO_KEY +
+          "&query=" +
           location
       )
       .then((res) => {
