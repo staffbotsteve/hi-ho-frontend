@@ -376,7 +376,7 @@ export default function Home(props) {
                         <Button
                           variant="contained"
                           color="primary"
-                          href={toString(row.MatchedObjectDescriptor.ApplyURI)}
+                          href={row.MatchedObjectDescriptor.ApplyURI[0]}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
