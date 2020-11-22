@@ -14,9 +14,8 @@ export default {
   //     return res.data
   //   })
   // },
-  usaJobs: function async(job, location, range, numResult) {
+  usaJobs: function (job, location, range, numResult) {
     const apiKey = process.env.REACT_APP_API_KEY;
-    console.log("apiKey", apiKey);
 
     return axios
       .get(
@@ -30,7 +29,6 @@ export default {
           numResult,
         {
           headers: {
-            "User-Agent": "webdevwes89@gmail.com",
             "Authorization-Key": apiKey,
           },
         }

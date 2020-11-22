@@ -76,26 +76,6 @@ const binarySearch = (target) => {
   }
 };
 
-// (function () {
-//   var cors_api_host = "cors-anywhere.herokuapp.com";
-//   var cors_api_url = "https://" + cors_api_host + "/";
-//   var slice = [].slice;
-//   var origin = window.location.protocol + "//" + window.location.host;
-//   var open = XMLHttpRequest.prototype.open;
-//   XMLHttpRequest.prototype.open = function () {
-//     var args = slice.call(arguments);
-//     var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
-//     if (
-//       targetOrigin &&
-//       targetOrigin[0].toLowerCase() !== origin &&
-//       targetOrigin[1] !== cors_api_host
-//     ) {
-//       args[1] = cors_api_url + args[1];
-//     }
-//     return open.apply(this, args);
-//   };
-// })();
-
 export default function Home(props) {
   const token = props.token;
   const classes = useStyles();
@@ -107,202 +87,6 @@ export default function Home(props) {
   const [zipResult, setZipResult] = useState([]);
   const [saveJobArray, setSavedJobArray] = useState([]);
 
-  const findPrice = (res, string) => {
-    if (!res) return 0;
-    const price = res.find((obj) => obj.item_name === string);
-    return price;
-  };
-
-  const filterPrice = (res, string) => {
-    if (findPrice(res.prices, string)) {
-      return findPrice(res.prices, string).average_price;
-    } else {
-      return;
-    }
-  };
-
-  // Old itemAPI built around result from zipRecruiter API
-  // const itemAPI = (item) => {
-  //   const cityState = item.city + ", " + item.state;
-  //   const justCity = item.city;
-  //   return new Promise((resolve, reject) => {
-  //     API.CostOfLiving(cityState)
-  //       .then((res) => {
-  //         const costLiving = JSON.stringify(res);
-  //         const newItem = { ...item, costLiving };
-  //         return newItem;
-  //       })
-  //       .then((item) => {
-  //         API.ItemPrices(cityState).then((res) => {
-  //           if (res.error) {
-  //             API.ItemPrices(justCity).then((res) => {
-  //               const gasPrice =
-  //                 filterPrice(res, "Gasoline (1 liter), Transportation") /
-  //                 0.264172;
-  //               const beerPrice = filterPrice(
-  //                 res,
-  //                 "Domestic Beer (0.5 liter bottle), Markets"
-  //               );
-  //               const mealPrice = filterPrice(
-  //                 res,
-  //                 "Meal, Inexpensive Restaurant, Restaurants"
-  //               );
-  //               const rentPrice = filterPrice(
-  //                 res,
-  //                 "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-  //               );
-  //               const basicPrice = filterPrice(
-  //                 res,
-  //                 "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-  //               );
-  //               const newItem = {
-  //                 ...item,
-  //                 gasPrice,
-  //                 beerPrice,
-  //                 mealPrice,
-  //                 rentPrice,
-  //                 basicPrice,
-  //               };
-  //               resolve(newItem);
-  //             });
-  //           } else if (res) {
-  //             const gasPrice =
-  //               filterPrice(res, "Gasoline (1 liter), Transportation") /
-  //               0.264172;
-  //             const beerPrice = filterPrice(
-  //               res,
-  //               "Domestic Beer (0.5 liter bottle), Markets"
-  //             );
-  //             const mealPrice = filterPrice(
-  //               res,
-  //               "Meal, Inexpensive Restaurant, Restaurants"
-  //             );
-  //             const rentPrice = filterPrice(
-  //               res,
-  //               "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-  //             );
-  //             const basicPrice = filterPrice(
-  //               res,
-  //               "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-  //             );
-  //             const newItem = {
-  //               ...item,
-  //               gasPrice,
-  //               beerPrice,
-  //               mealPrice,
-  //               rentPrice,
-  //               basicPrice,
-  //             };
-  //             resolve(newItem);
-  //           }
-  //         });
-  //       })
-  //       .catch((err) => reject(err));
-  //   });
-  // };
-
-  // Old handleSubmit utilizing zipRecruiter API
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (job === "" && location === "" && range === "") {
-  //     toast.success("Displaying most recently posted jobs in the USA");
-  //   }
-
-  //   const res = await API.ziprecruiter(job, location, range, result);
-  //   const jobsPromises = res.jobs.map((job) => itemAPI(job));
-  //   const items = await Promise.all(jobsPromises);
-  //   setZipResult(items);
-  // };
-
-  const itemAPI = (item) => {
-    let cityState;
-    if (item.MatchedObjectDescriptor.PositionLocation.length <= 1) {
-      cityState = item.MatchedObjectDescriptor.PositionLocation[0].LocationName;
-      //console.log(cityState);
-    } else {
-      //console.log(location);
-      cityState = location;
-    }
-    let justCity; //= item.PositionLocation[0].LocationName.split(",")[0];
-    return new Promise((resolve, reject) => {
-      API.CostOfLiving(cityState)
-        .then((res) => {
-          const costLiving = JSON.stringify(res);
-          const newItem = { ...item, costLiving };
-          return newItem;
-        })
-        .then((item) => {
-          API.ItemPrices(cityState).then((res) => {
-            if (res.error) {
-              API.ItemPrices(justCity).then((res) => {
-                const gasPrice =
-                  filterPrice(res, "Gasoline (1 liter), Transportation") /
-                  0.264172;
-                const beerPrice = filterPrice(
-                  res,
-                  "Domestic Beer (0.5 liter bottle), Markets"
-                );
-                const mealPrice = filterPrice(
-                  res,
-                  "Meal, Inexpensive Restaurant, Restaurants"
-                );
-                const rentPrice = filterPrice(
-                  res,
-                  "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-                );
-                const basicPrice = filterPrice(
-                  res,
-                  "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-                );
-                const newItem = {
-                  ...item,
-                  gasPrice,
-                  beerPrice,
-                  mealPrice,
-                  rentPrice,
-                  basicPrice,
-                  cityState,
-                };
-                resolve(newItem);
-              });
-            } else if (res) {
-              const gasPrice =
-                filterPrice(res, "Gasoline (1 liter), Transportation") /
-                0.264172;
-              const beerPrice = filterPrice(
-                res,
-                "Domestic Beer (0.5 liter bottle), Markets"
-              );
-              const mealPrice = filterPrice(
-                res,
-                "Meal, Inexpensive Restaurant, Restaurants"
-              );
-              const rentPrice = filterPrice(
-                res,
-                "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-              );
-              const basicPrice = filterPrice(
-                res,
-                "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-              );
-              const newItem = {
-                ...item,
-                gasPrice,
-                beerPrice,
-                mealPrice,
-                rentPrice,
-                basicPrice,
-                cityState,
-              };
-              resolve(newItem);
-            }
-          });
-        })
-        .catch((err) => reject(err));
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -311,9 +95,7 @@ export default function Home(props) {
     }
 
     const res = await API.usaJobs(job, location, range, result);
-    const jobsPromises = res.map((job) => itemAPI(job));
-    const items = await Promise.all(jobsPromises);
-    setZipResult(items);
+    setZipResult(res);
     console.log("zipResult", zipResult);
   };
 
@@ -376,7 +158,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if (token) {
-      console.log(`${backendUrl}/jobs/${token.id}`);
+      //console.log(`${backendUrl}/jobs/${token.id}`);
       fetch(`${backendUrl}/jobs/${token.id}`)
         .then((res) => res.json())
         .then((response) => {
@@ -431,7 +213,6 @@ export default function Home(props) {
           value={range}
         />
         <Slider onChange={(e) => setResult(e)} />
-        <br></br>
 
         <SubmitBtn type="submit" handleSubmit={handleSubmit}>
           Submit
@@ -447,7 +228,7 @@ export default function Home(props) {
         <Wrapper>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
-              <TableHead>
+              <TableHead className="tableHead">
                 <TableRow>
                   <TableCell align="center">
                     <strong>Job Title</strong>
@@ -498,11 +279,18 @@ export default function Home(props) {
                 {zipResult
                   .filter((job) => !savedJobsIds.includes(job.id))
                   .map((row) => (
-                    <TableRow key={row.id}>
+                    <TableRow key={row.MatchedObjectDescriptor.PositionID}>
                       <TableCell component="th" scope="row">
                         <ModalCard
-                          location={row.cityState}
-                          city={row.cityState.split(", ")[0]}
+                          location={
+                            row.MatchedObjectDescriptor.PositionLocation[0]
+                              .CityName
+                          }
+                          city={
+                            row.MatchedObjectDescriptor.PositionLocation[0].CityName.split(
+                              ","
+                            )[0]
+                          }
                           name={row.MatchedObjectDescriptor.OrganizationName}
                         >
                           {row.MatchedObjectDescriptor.OrganizationName}
@@ -544,12 +332,21 @@ export default function Home(props) {
                       </TableCell>
                       <TableCell align="left">
                         <ModalCard
-                          location={row.cityState}
-                          city={row.cityState.split(", ")[0]}
+                          location={
+                            row.MatchedObjectDescriptor.PositionLocation[0]
+                              .CityName
+                          }
+                          city={
+                            row.MatchedObjectDescriptor.PositionLocation[0].CityName.split(
+                              ","
+                            )[0]
+                          }
                           name={row.MatchedObjectDescriptor.OrganizationName}
-                        >
-                          {row.cityState}
-                        </ModalCard>
+                        ></ModalCard>
+                        {
+                          row.MatchedObjectDescriptor.PositionLocation[0]
+                            .CityName
+                        }
                       </TableCell>
                       <TableCell align="left">
                         {toTwoDigit(row.costLiving)}
@@ -583,7 +380,7 @@ export default function Home(props) {
                         <Button
                           variant="contained"
                           color="primary"
-                          href={row.MatchedObjectDescriptor.ApplyURI}
+                          href={toString(row.MatchedObjectDescriptor.ApplyURI)}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

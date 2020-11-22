@@ -1,21 +1,27 @@
 .diamond {
-    width: 20px;
-    margin-right: 10px;
+  width: 20px;
+  margin-right: 10px;
 }
 
-.snippetLink{
-    text-decoration: none;
+.snippetLink {
+  text-decoration: none;
 }
 
 .snippetLink:link {
-    color: black;
-  }
-  
-  /* visited link */
+  color: black;
+}
+
+/* visited link */
 .snippetLink:visited {
-    color: darkblue;
-  }
+  color: darkblue;
+}
 
 .center {
   text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .tableHead {
+    display: none !important;
+  }
 }
