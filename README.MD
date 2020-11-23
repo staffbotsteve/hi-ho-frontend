@@ -1,68 +1,37 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![License Badge](https://img.shields.io/badge/License-ISC-green.svg)
 
-## Available Scripts
+### Deployed app on Heroku
 
-In the project directory, you can run:
+https://hi-ho-frontend.herokuapp.com/
 
-### `npm start`
+### Developed by: staffbotsteve, dspark410, tpoovaiah, WebDevWes
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project/Repo Title: Hi-Ho Job Search (Frontend)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Description: A job search application website using USAJobs and Numbeo API. A user is able to search for any job in a city, click on the job title and view all the cost of living information. Numbeo will provide gas, utilities, rent, etc prices along with a Cost of Living Index using New York as a baseline of 100.
 
-### `npm test`
+![Screenshot](/assets/images/HiHo_Home.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+How to use: On the home page, without needing to register, a user can search for Jobs by typing in the type of job, location, and search radius. Once a user is registered the user can save the jobs into their profile page for future reference. Cost of living information will be made available on the profile page as well.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ![Screenshot](/assets/images/HiHo_Profile.png)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+License: ISC
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Contributor: Steven Swan, David Park, Tanya Poovaiah, Wesley Tran
 
-### `npm run eject`
+### Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- HTML
+- CSS
+- Javascript
+- ReactJS
+  - Material-UI
+- NodeJS
+  - Express
+  - JWT Authentication
+  - BCrypt
+- MongoDB
+  - Mongoose

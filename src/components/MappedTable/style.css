@@ -1,0 +1,40 @@
+.diamond {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.snippetLink {
+  text-decoration: none;
+}
+
+.snippetLink:link {
+  color: black;
+}
+
+/* visited link */
+.snippetLink:visited {
+  color: darkblue;
+}
+
+.mobile-description {
+  display: none !important;
+  font-weight: bold !important;
+  border-bottom: 2px black solid !important;
+}
+
+.SelectOption {
+  width: 145px !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .table-row-flex {
+    border: 1px gray solid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 5px !important;
+  }
+  .mobile-description {
+    display: table-cell !important;
+  }
+}

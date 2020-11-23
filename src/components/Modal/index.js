@@ -60,27 +60,35 @@ export default function TransitionsModal(props) {
     API.ItemPrices(cityState).then((res) => {
       if (res.error) {
         API.ItemPrices(justCity).then((res) => {
-          setGasPrice(
-            filterPrice(res, "Gasoline (1 liter), Transportation") / 0.264172
-          );
-          setBeerPrice(
-            filterPrice(res, "Domestic Beer (0.5 liter bottle), Markets")
-          );
-          setMealPrice(
-            filterPrice(res, "Meal, Inexpensive Restaurant, Restaurants")
-          );
-          setRentPrice(
-            filterPrice(
-              res,
-              "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
-            )
-          );
-          setBasicPrice(
-            filterPrice(
-              res,
-              "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
-            )
-          );
+          if (res.error) {
+            setGasPrice("NA");
+            setBeerPrice("NA");
+            setMealPrice("NA");
+            setRentPrice("NA");
+            setBasicPrice("NA");
+          } else {
+            setGasPrice(
+              filterPrice(res, "Gasoline (1 liter), Transportation") / 0.264172
+            );
+            setBeerPrice(
+              filterPrice(res, "Domestic Beer (0.5 liter bottle), Markets")
+            );
+            setMealPrice(
+              filterPrice(res, "Meal, Inexpensive Restaurant, Restaurants")
+            );
+            setRentPrice(
+              filterPrice(
+                res,
+                "Apartment (1 bedroom) Outside of Centre, Rent Per Month"
+              )
+            );
+            setBasicPrice(
+              filterPrice(
+                res,
+                "Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)"
+              )
+            );
+          }
         });
       } else if (res) {
         setGasPrice(
@@ -172,7 +180,7 @@ export default function TransitionsModal(props) {
                       : formatter.format(mealPrice)}
                   </td>
                 </tr>
-                <hr />
+                <tr></tr>
                 <tr>
                   <td>
                     Apartment (1 bedroom) Outside of Centre, Rent Per Month
@@ -183,7 +191,7 @@ export default function TransitionsModal(props) {
                       : formatter.format(rentPrice)}
                   </td>
                 </tr>
-                <hr />
+                <tr></tr>
                 <tr>
                   <td>
                     Basic (Electricity, Heating, Cooling, Water, Garbage) for

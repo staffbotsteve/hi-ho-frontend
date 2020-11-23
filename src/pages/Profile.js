@@ -3,20 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   Button,
 } from "@material-ui/core";
-import ModalCard from "../Modal";
-import Wrapper from "../Wrapper";
+import Wrapper from "../components/Wrapper";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProfileModal from "../ProfileModal";
-
-import "./style.css";
+import ProfileModal from "../components/ProfileModal";
+import TableHeader from "../components/TableHeader";
+import MappedTable from "../components/MappedTable";
 
 const useStyles = makeStyles({
   root: {
@@ -109,11 +105,6 @@ const Profile = ({ token }) => {
 
   const { firstName, lastName, email, phone } = data;
 
-  const formatTime = (date) => {
-    const dateTime = date.replace("T", "-").split("-");
-    return `${dateTime[1]}-${dateTime[2]}-${dateTime[0]}`;
-  };
-
   return (
     <div>
       <Wrapper>
@@ -127,69 +118,29 @@ const Profile = ({ token }) => {
         <h2 className="center">Your Saved Jobs</h2>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <strong>Job Title</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Company</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Location</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Summary</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Date Posted</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Application</strong>
-                </TableCell>
-                <TableCell align="left"></TableCell>
-              </TableRow>
-            </TableHead>
+            <TableHeader>Delete</TableHeader>
             <TableBody>
-              {zipResult.map((row, i) => (
-                <TableRow key={i}>
-                  <TableCell component="th" scope="row">
-                    <ModalCard
-                      location={row.city + ", " + row.state}
-                      city={row.city}
-                    >
-                      {row.name}
-                    </ModalCard>
-                  </TableCell>
-                  <TableCell align="left">{row.company}</TableCell>
-                  <TableCell align="left">{row.location}</TableCell>
-                  <TableCell align="left">
-                    <p dangerouslySetInnerHTML={{ __html: row.snippet }} />
-                  </TableCell>
-                  <TableCell align="left">
-                    {formatTime(row.posted_time)}
-                  </TableCell>
-                  <TableCell align="left">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={row.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Apply
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => handleJobDelete(row)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
+              {zipResult.map((row) => (
+                <MappedTable
+                  key={row.jobId}
+                  location={row.location}
+                  name={row.company}
+                  title={row.name}
+                  minSalary={row.minSalary}
+                  maxSalary={row.maxSalary}
+                  snippet={row.snippet}
+                  positionURL={row.url}
+                  applyURL={row.applyURL}
+                  postedDate={row.posted_time}
+                >
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleJobDelete(row)}
+                  >
+                    Delete
+                  </Button>
+                </MappedTable>
               ))}
             </TableBody>
           </Table>

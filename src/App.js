@@ -7,11 +7,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Login from "./components/Login";
-//import Login from "./components/login";
+import Login from "./pages/Login";
 
 import jwtDecode from "jwt-decode";
-import Profile from "./components/Profile";
+import Profile from "./pages/Profile";
 
 function App() {
   const [token, setToken] = useState("");
@@ -38,7 +37,7 @@ function App() {
             }}
           />{" "}
           <Route
-            path="/Login"
+            path="/login"
             render={(props) => {
               if (token === "") return <Login {...props} />;
               return <Redirect to="/" />;

@@ -33,7 +33,6 @@ export default function CreateProfileCard() {
     e.preventDefault();
 
     const url = process.env.REACT_APP_API_URL;
-    console.log(process.env.USAJOBS_REACT_APP_API_URL);
 
     if (
       firstName === "" ||
@@ -102,10 +101,17 @@ export default function CreateProfileCard() {
       noValidate
       autoComplete="off"
     >
-      <h1 className="loginTitle">Welcome to Hi Ho</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "0px" }}>
+        Welcome to Hi Ho
+      </h1>
       <img
         src={process.env.PUBLIC_URL + "/images/hihowhite.png"}
-        className="loginLogo"
+        style={{
+          width: "100px",
+          backgroundColor: "#2c3b8f",
+          borderRadius: "50%",
+          marginBottom: "10px",
+        }}
         alt="hiho"
       />
       <h3>REGISTER</h3>

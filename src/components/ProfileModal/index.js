@@ -6,7 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SubmitBtn from "../SubmitBtn";
 import { toast } from "react-toastify";
-import {Button}  from "@material-ui/core"
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,12 +43,12 @@ export default function TransitionsModal(props) {
 
     const url = process.env.REACT_APP_API_URL;
 
-  const dataToSend = {
-    firstName : firstName || props.data.firstName,
-    lastName : lastName || props.data.lastName,
-    email : email || props.data.email,
-    phone : phone || props.data.phone
-  }
+    const dataToSend = {
+      firstName: firstName || props.data.firstName,
+      lastName: lastName || props.data.lastName,
+      email: email || props.data.email,
+      phone: phone || props.data.phone,
+    };
 
     fetch(`${url}/me/${props.data._id}`, {
       method: "PUT",
@@ -61,7 +61,7 @@ export default function TransitionsModal(props) {
       .then((data) => {
         if (data.success) {
           console.log("editData", data);
-          props.setData(dataToSend)
+          props.setData(dataToSend);
           toast.success("Profile successfully editted");
           handleClose();
         }
@@ -91,7 +91,6 @@ export default function TransitionsModal(props) {
             <div>
               <TextField
                 required
-                id="outlined-required"
                 label="First Name"
                 placeholder={firstName}
                 variant="outlined"
@@ -100,7 +99,6 @@ export default function TransitionsModal(props) {
               />
               <TextField
                 required
-                id="outlined-required"
                 label="Last Name"
                 placeholder={lastName}
                 variant="outlined"
@@ -111,7 +109,6 @@ export default function TransitionsModal(props) {
             <div>
               <TextField
                 required
-                id="outlined-required"
                 label="Email"
                 placeholder={email}
                 variant="outlined"
@@ -120,7 +117,6 @@ export default function TransitionsModal(props) {
               />
               <TextField
                 required
-                id="outlined-required"
                 label="Phone Number"
                 placeholder={phone}
                 variant="outlined"
@@ -129,7 +125,11 @@ export default function TransitionsModal(props) {
               />
             </div>
             <br></br>
-            <SubmitBtn disabled={!phone && !email && !firstName && !lastName} type="submit" handleSubmit={handleSubmit}>
+            <SubmitBtn
+              disabled={!phone && !email && !firstName && !lastName}
+              type="submit"
+              handleSubmit={handleSubmit}
+            >
               Edit Profile
             </SubmitBtn>
           </div>
