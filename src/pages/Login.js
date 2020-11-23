@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 import FormControl from "@material-ui/core/FormControl";
 
 import InputBase from "@material-ui/core/InputBase";
-import SubmitBtn from "../SubmitBtn";
-
-import "./style.css";
+import SubmitBtn from "../components/SubmitBtn";
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -99,11 +97,18 @@ export default function Login() {
         style={{ textAlign: "center", marginTop: "40px" }}
         onSubmit={handleSubmit}
       >
-        <h1 className="loginTitle">Welcome to Hi Ho</h1>
+        <h1 style={{ textAlign: "center", marginBottom: "0px" }}>
+          Welcome to Hi Ho
+        </h1>
         <h3>Your Job Search Site</h3>
         <img
           src={process.env.PUBLIC_URL + "/images/hihowhite.png"}
-          className="loginLogo"
+          style={{
+            width: "100px",
+            backgroundColor: "#2c3b8f",
+            borderRadius: "50%",
+            marginBottom: "10px",
+          }}
           alt="hiho"
         />
         <h3>LOGIN</h3>

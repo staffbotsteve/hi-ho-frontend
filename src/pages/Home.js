@@ -76,9 +76,14 @@ export default function Home(props) {
           userId: token.id,
           name: PositionTitle,
           company: OrganizationName,
-          location: MatchedObjectDescriptor.PositionLocation[0].CityName,
+          location: MatchedObjectDescriptor.PositionLocation,
+          minSalary:
+            MatchedObjectDescriptor.PositionRemuneration[0].MinimumRange,
+          maxSalary:
+            MatchedObjectDescriptor.PositionRemuneration[0].MaximumRange,
           snippet: MatchedObjectDescriptor.UserArea.Details.JobSummary,
           url: PositionURI,
+          applyURL: MatchedObjectDescriptor.ApplyURI[0],
           posted_time: PositionStartDate,
         }),
       })
@@ -175,7 +180,12 @@ export default function Home(props) {
               <TableHeader>Save</TableHeader>
               <TableBody>
                 {zipResult
-                  .filter((job) => !savedJobsIds.includes(job.id))
+                  .filter(
+                    (job) =>
+                      !savedJobsIds.includes(
+                        job.MatchedObjectDescriptor.PositionID
+                      )
+                  )
                   .map((row) => (
                     <MappedTable
                       key={row.MatchedObjectDescriptor.PositionID}
