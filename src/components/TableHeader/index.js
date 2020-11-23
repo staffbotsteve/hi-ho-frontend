@@ -1,5 +1,6 @@
 import React from "react";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
+import "./style.css";
 
 export default function TableHeader(props) {
   return (
