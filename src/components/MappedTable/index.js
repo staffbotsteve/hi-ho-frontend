@@ -38,7 +38,7 @@ const binarySearch = (target) => {
 };
 
 export default function MappedTable(props) {
-  const [cityState, setCityState] = useState("");
+  const [cityState, setCityState] = useState(props.location[0].CityName);
 
   const selectChange = (event) => {
     setCityState(event.target.value);
