@@ -79,7 +79,7 @@ export default function Login() {
         if (data.success) {
           console.log("data", data);
           toast.success("logged in successfully");
-          localStorage.setItem("token", data.token);
+          sessionStorage.setItem("token", data.token);
 
           const inputs = [setEmail, setPassword];
           clearInput(inputs);

@@ -71,7 +71,7 @@ export default function CreateProfileCard() {
           } else {
             console.log("data", data);
             toast.success("account created successfully");
-            localStorage.setItem("token", data.token);
+            sessionStorage.setItem("token", data.token);
 
             const inputs = [
               setFirstName,

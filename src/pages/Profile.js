@@ -36,7 +36,7 @@ const Profile = ({ token }) => {
   const [zipResult, setZipResult] = useState([]);
 
   const url = process.env.REACT_APP_API_URL;
-  const accessToken = localStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("token");
 
   useEffect(() => {
     const updateProfile = () => {

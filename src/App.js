@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     try {
-      let token = localStorage.getItem("token");
+      let token = sessionStorage.getItem("token");
       token = jwtDecode(token);
       setToken(token);
     } catch (ex) {}

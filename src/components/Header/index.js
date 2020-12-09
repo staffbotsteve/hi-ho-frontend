@@ -26,7 +26,7 @@ export default function Header({ token }) {
   const classes = useStyles();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location = "/login";
   };
 
@@ -66,7 +66,7 @@ export default function Header({ token }) {
             ) : (
               <>
                 <Link to="/profile">Profile</Link>
-                <Link to="#" onClick={handleLogout}>
+                <Link to="/" onClick={handleLogout}>
                   Logout
                 </Link>
               </>
