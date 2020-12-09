@@ -2,7 +2,7 @@
 
 ### Deployed app on Heroku
 
-https://hi-ho-frontend.herokuapp.com/
+https://hi-ho-job-search.herokuapp.com/
 
 ### Developed by: staffbotsteve, dspark410, tpoovaiah, WebDevWes
 
