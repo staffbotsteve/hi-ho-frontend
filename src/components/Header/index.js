@@ -27,7 +27,7 @@ export default function Header({ token }) {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    window.location = "/login";
+    window.location = "/";
   };
 
   return (
